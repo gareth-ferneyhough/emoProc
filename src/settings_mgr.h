@@ -9,37 +9,37 @@
 
 class SettingsMgr
 {
-    public:
-        static SettingsMgr* getInstance();
+ public:
+  static SettingsMgr* getInstance();
 
-        int getSampleRate()
-        {
-            return settings.sample_rate_;
-        }
+  int getSampleRate()
+  {
+    return settings.sample_rate_;
+  }
 
-        void setSampleRate(int sample_rate)
-        {
-            settings.sample_rate_ = sample_rate;
-        }
+  void setSampleRate(int sample_rate)
+  {
+    settings.sample_rate_ = sample_rate;
+  }
 
-    private:
-        Logger* const logger_;
-        const std::string my_name_;
+ private:
+  Logger* const logger_;
+  const std::string my_name_;
 
-        DISALLOW_COPY_AND_ASSIGN(SettingsMgr);
-        SettingsMgr();  // ctor private for Singleton implementation
-        ~SettingsMgr(); // same for dtor
+  DISALLOW_COPY_AND_ASSIGN(SettingsMgr);
+  SettingsMgr();  // ctor private for Singleton implementation
+  ~SettingsMgr(); // same for dtor
 
-        class Settings{
-            public:
-                Settings() :
-                    sample_rate_(-1)
-                {}
+  class Settings{
+  public:
+  Settings() :
+    sample_rate_(-1)
+      {}
 
-                int sample_rate_;
-        };
+    int sample_rate_;
+  };
 
-        Settings settings;
+  Settings settings;
 };
 
 #endif // SETTINGS_H

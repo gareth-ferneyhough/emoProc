@@ -3,14 +3,14 @@
 #include <typeinfo>
 
 FeatureExtractor::FeatureExtractor() :
-    logger_(Logger::getInstance()),
-    my_name_(typeid(*this).name())
+  logger_(Logger::getInstance()),
+  my_name_(typeid(*this).name())
 {
-    //ctor
+  //ctor
 }
 
 FeatureExtractor::~FeatureExtractor()
 {
-    //dtor
+  //dtor
 }
 

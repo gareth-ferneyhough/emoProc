@@ -4,24 +4,24 @@
 #include "settings_mgr.h"
 
 MyFeatureExtractor::MyFeatureExtractor() :
-    FeatureExtractor(),
-    pitch(NULL)
+  FeatureExtractor(),
+  pitch(NULL)
 {
-    //ctor
-    init();
+  //ctor
+  init();
 }
 
 void MyFeatureExtractor::init()
 {
-    pitch = new Pitch(SettingsMgr::getInstance()->getSampleRate());
+  pitch = new Pitch(SettingsMgr::getInstance()->getSampleRate());
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
 {
-    //dtor
+  //dtor
 }
 
 void MyFeatureExtractor::processAudioSampleFunction(const float* const audio_frames, int num_frames)
 {
-    std::cout << pitch->getPitch(audio_frames, num_frames) << std::endl;
+  std::cout << pitch->getPitch(audio_frames, num_frames) << std::endl;
 }

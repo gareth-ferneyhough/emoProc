@@ -13,28 +13,28 @@ class MyFeatureExtractor;
 
 class AudioProcessor
 {
-    public:
-        AudioProcessor();
-        ~AudioProcessor();
-        void init();
+ public:
+  AudioProcessor();
+  ~AudioProcessor();
+  void init();
 
-        void setAudioBuffer(JackCpp::RingBuffer<float>* audio_buffer)
-        {
-            audio_buffer_ = audio_buffer;
-        }
+  void setAudioBuffer(JackCpp::RingBuffer<float>* audio_buffer)
+  {
+    audio_buffer_ = audio_buffer;
+  }
 
-        void processAudio();
+  void processAudio();
 
-    private:
-        DISALLOW_COPY_AND_ASSIGN(AudioProcessor);
+ private:
+  DISALLOW_COPY_AND_ASSIGN(AudioProcessor);
 
-        JackCpp::RingBuffer<float>* audio_buffer_;
-        int sample_rate_;
+  JackCpp::RingBuffer<float>* audio_buffer_;
+  int sample_rate_;
 
-        MyFeatureExtractor* feature_extractor;
+  MyFeatureExtractor* feature_extractor;
 
-        Logger* const logger_;
-        const std::string my_name_;
+  Logger* const logger_;
+  const std::string my_name_;
 };
 
 #endif // AUDIOPROCESSOR_H

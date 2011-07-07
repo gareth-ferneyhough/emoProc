@@ -6,18 +6,18 @@
 
 int main()
 {
-    Logger* logger = Logger::getInstance();
-    Initializer::getInstance();
+  Logger* logger = Logger::getInstance();
+  Initializer::getInstance();
 
-    logger->writeLog("main", "in main");
+  logger->writeLog("main", "in main");
 
-    // Exit program on 'q'
-    char c;
-    do{
-        std::cin >> c;
-    }
+  // Exit program on 'q'
+  char c;
+  do{
+    std::cin >> c;
+  }
 
-    while(c != 'q');
+  while(c != 'q');
 
-    return 0;
+  return 0;
 }

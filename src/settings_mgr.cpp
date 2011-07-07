@@ -1,19 +1,19 @@
 #include "settings_mgr.h"
 
 SettingsMgr::SettingsMgr() :
-    logger_(Logger::getInstance()),
-    my_name_(typeid(*this).name())
+  logger_(Logger::getInstance()),
+  my_name_(typeid(*this).name())
 {
-    //ctor
+  //ctor
 }
 
 SettingsMgr::~SettingsMgr()
 {
-    //dtor
+  //dtor
 }
 
 SettingsMgr* SettingsMgr::getInstance()
 {
-    static SettingsMgr instance;
-    return &instance;
+  static SettingsMgr instance;
+  return &instance;
 }

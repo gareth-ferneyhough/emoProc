@@ -8,20 +8,20 @@ class AudioProcessor;
 
 class AudioProcessorThread : public ThreadWrapper
 {
-    public:
-        explicit AudioProcessorThread(JackCpp::RingBuffer<float>*,
-                                    boost::condition*);
-        ~AudioProcessorThread();
+ public:
+  explicit AudioProcessorThread(JackCpp::RingBuffer<float>*,
+                                boost::condition*);
+  ~AudioProcessorThread();
 
-    private:
-        AudioProcessor* audio_processor_;
-        bool audio_processor_started_;
-        JackCpp::RingBuffer<float>* audio_buffer_;
+ private:
+  AudioProcessor* audio_processor_;
+  bool audio_processor_started_;
+  JackCpp::RingBuffer<float>* audio_buffer_;
 
-        boost::mutex mutex_;
-        boost::condition* go_condition_;
+  boost::mutex mutex_;
+  boost::condition* go_condition_;
 
-        void runFunction();
+  void runFunction();
 };
 
 #endif // AUDIOPROCESSORTHREAD_H

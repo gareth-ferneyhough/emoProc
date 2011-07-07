@@ -7,25 +7,25 @@ class AudioCapture;
 
 class AudioCaptureThread : public ThreadWrapper
 {
-    public:
-        explicit AudioCaptureThread(JackCpp::RingBuffer<float>*,
-                                    boost::condition*);
-        ~AudioCaptureThread();
+ public:
+  explicit AudioCaptureThread(JackCpp::RingBuffer<float>*,
+                              boost::condition*);
+  ~AudioCaptureThread();
 
-        int getSampleRate();
+  int getSampleRate();
 
-        bool isStarted() {
-            return audio_capture_started_;
-        }
+  bool isStarted() {
+    return audio_capture_started_;
+  }
 
-    private:
-        AudioCapture* audio_capture_;
-        bool audio_capture_started_;
-        JackCpp::RingBuffer<float>* audio_buffer_;
+ private:
+  AudioCapture* audio_capture_;
+  bool audio_capture_started_;
+  JackCpp::RingBuffer<float>* audio_buffer_;
 
-        boost::condition* go_condition_;
+  boost::condition* go_condition_;
 
-        void runFunction();
+  void runFunction();
 };
 
 #endif // AUDIOCAPTURETHREAD_H

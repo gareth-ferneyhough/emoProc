@@ -5,19 +5,19 @@
 
 class Pitch
 {
-    public:
-        Pitch(int sample_rate);
-        ~Pitch();
-        float getPitch(const float* const, int);
+ public:
+  Pitch(int sample_rate);
+  ~Pitch();
+  float getPitch(const float* const, int);
 
-    private:
-        fvec_t * yin_in;
-        aubio_pitchdetection_t * o;
+ private:
+  fvec_t * yin_in;
+  aubio_pitchdetection_t * o;
 
-        int sample_rate_;
-        bool is_initialized_;
+  int sample_rate_;
+  bool is_initialized_;
 
-        int init();
+  int init();
 };
 
 #endif // PITCH_H

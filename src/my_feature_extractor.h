@@ -7,15 +7,15 @@ class Pitch;
 
 class MyFeatureExtractor : public FeatureExtractor
 {
-    public:
-        MyFeatureExtractor();
-        ~MyFeatureExtractor();
+ public:
+  MyFeatureExtractor();
+  ~MyFeatureExtractor();
 
-    private:
-        Pitch* pitch;
+ private:
+  Pitch* pitch;
 
-        void init();
-        void processAudioSampleFunction(const float* audio_frames, int num_frames);
+  void init();
+  void processAudioSampleFunction(const float* audio_frames, int num_frames);
 };
 
 #endif // MYFEATUREEXTRACTOR_H
