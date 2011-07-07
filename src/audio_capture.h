@@ -2,7 +2,7 @@
 #define AudioCapture_H
 
 #include <boost/thread/condition.hpp>
-#include "jackaudioio.hpp"
+#include <jackaudioio.hpp>
 #include "uncopyable.h"
 
 class Logger;
