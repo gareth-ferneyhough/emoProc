@@ -13,7 +13,7 @@ Pitch::~Pitch()
 {
   //dtor
   del_fvec(yin_in);
-  del_aubio_pitchdetection(o);
+  del_aubio_pitch(o);
   aubio_cleanup();
 }
 
@@ -26,12 +26,12 @@ int Pitch::init()
   uint_t samplerate = sample_rate_;               /* samplerate */
   uint_t channels   = 1;                          /* number of channel */
 
-  aubio_pitchdetection_mode mode = aubio_pitchm_freq;
-  aubio_pitchdetection_type type = aubio_pitch_yinfft;
-  yin_in = new_fvec (win_s, channels); /* input buffer */
-  o  = new_aubio_pitchdetection(
-                                win_s, hop_s, channels, samplerate, type, mode
-                                );
+  //const char* pitch_mode = "freq";
+  //const char* pitch_method = "yin";
+  
+  yin_in = new_fvec (win_s); /* input buffer */
+  o  = new_aubio_pitch("yin", win_s, hop_s, samplerate);
+  aubio_pitch_set_unit(o, "freq");
 
   is_initialized_ = true;
 
@@ -43,9 +43,14 @@ float Pitch::getPitch(const float* const audio_frames, int num_frames)
   if (is_initialized_ == true) {
     //assert (num_frames == 1024);
 
-    memcpy (*(yin_in->data), audio_frames,
+    memcpy (yin_in->data, audio_frames,
             sizeof (float) * num_frames);
 
-    return aubio_pitchdetection(o,yin_in);
+    fvec_t *out = new_fvec(1);
+    aubio_pitch_do(o, yin_in, out);
+
+    return float(out->data[0]);
   }
+
+  else return 0;
 }

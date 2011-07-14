@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include "jackcpp/jackringbuffer.hpp"
+#include <jackringbuffer.hpp>
 #include "logger.h"
 #include "settings_mgr.h"
 
@@ -36,7 +36,7 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
                                 audioBufVector outBufs)
 {
   for(unsigned int i = 0; i < inBufs.size(); i++){
-    for(unsigned int j = 0; j < nframes; j+=6)
+    for(unsigned int j = 0; j < nframes; j++)
       ring_buffer_->write(inBufs[i][j]);
   }
   //std::cout << ring_buffer_->getReadSpace() << std::endl;
@@ -53,7 +53,7 @@ int AudioCapture::startAudioClient()
   start();
   connectFromPhysical(0, 0);  // Connect input to port 0
 
-  SettingsMgr::getInstance()->setSampleRate(getSampleRate() / 6);
+  SettingsMgr::getInstance()->setSampleRate(getSampleRate());
 
   if (isRealTime())
     logger_->writeLog(my_name_, "Jack is real time");

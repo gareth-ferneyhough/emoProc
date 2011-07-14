@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "jackcpp/jackringbuffer.hpp"
+#include <jackringbuffer.hpp>
 
 #include "logger.h"
 #include "audio_capture_thread.h"

@@ -1,6 +1,7 @@
-#ifndef PITCH_H
-#define PITCH_H
+#ifndef EMO_PITCH_H
+#define EMO_PITCH_H
 
+/* Note: Requires aubio >= 0.3.3 */
 #include <aubio/aubio.h>
 
 class Pitch
@@ -12,7 +13,7 @@ class Pitch
 
  private:
   fvec_t * yin_in;
-  aubio_pitchdetection_t * o;
+  aubio_pitch_t * o;
 
   int sample_rate_;
   bool is_initialized_;
@@ -20,4 +21,4 @@ class Pitch
   int init();
 };
 
-#endif // PITCH_H
+#endif // EMO_PITCH_H
