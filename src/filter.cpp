@@ -1,16 +1,15 @@
-#include "pitch.h"
+#include "filter.h"
 #include <string.h> // for memcpy
 #include <assert.h>
-#include <iostream>
 
-Pitch::Pitch(int sample_rate) :
+Filter::Filter(int sample_rate) :
   sample_rate_(sample_rate)
 {
   //ctor
   init();
 }
 
-Pitch::~Pitch()
+Filter::~Filter()
 {
   //dtor
   del_fvec(filter_in);
@@ -18,9 +17,10 @@ Pitch::~Pitch()
   aubio_cleanup();
 }
 
-int Pitch::init()
+int Filter::init()
 {
-  filter_in = new_fvec (win_s); /* input buffer */
+  int input_buffer_size = 1024;
+  filter_in = new_fvec (input_buffer_size); /* input buffer */
 
   initializeButter();
   is_initialized_ = true;
@@ -28,7 +28,7 @@ int Pitch::init()
   return 0;
 }
 
-int Pitch::initializeButter()
+int Filter::initializeButter()
 {
   /* create lowpass butterworth filter */
 
@@ -67,7 +67,7 @@ int Filter::doLowpassFilter(float* const audio_frames, int num_frames)
     memcpy (filter_in->data, audio_frames,
             sizeof (float) * num_frames);
 
-    aubio_filter_do(butter, yin_in);
+    aubio_filter_do(butter, filter_in);
 
     return 0;
   }

@@ -1,7 +1,6 @@
 #include "pitch.h"
 #include <string.h> // for memcpy
 #include <assert.h>
-#include <iostream>
 
 Pitch::Pitch(int sample_rate) :
   sample_rate_(sample_rate)
