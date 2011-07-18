@@ -15,13 +15,11 @@ class Pitch
   fvec_t * yin_in;
   fvec_t * yin_out;
   aubio_pitch_t * o;
-  aubio_filter_t *butter;
 
   int sample_rate_;
   bool is_initialized_;
 
   int init();
-  int initializeButter();
 };
 
 #endif // EMO_PITCH_H
