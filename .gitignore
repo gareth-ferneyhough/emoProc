@@ -1,6 +1,7 @@
 *.o
 *~
 *.log
+#*
 emote
 
 CMakeCache.txt
