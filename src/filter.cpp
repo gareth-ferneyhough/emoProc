@@ -12,15 +12,16 @@ Filter::Filter(int sample_rate) :
 Filter::~Filter()
 {
   //dtor
-  del_fvec(filter_in);
+
+  /* cannot delete this without segfault! crap. */
+  //del_fvec(filter_in); 
   del_aubio_filter(butter);
   aubio_cleanup();
 }
 
 int Filter::init()
 {
-  int input_buffer_size = 1024;
-  filter_in = new_fvec (input_buffer_size); /* input buffer */
+  filter_in = new_fvec(0);
 
   initializeButter();
   is_initialized_ = true;
@@ -56,25 +57,22 @@ int Filter::initializeButter()
   b->data[5] = 0.00000000288178532962;
   b->data[6] = 0.00000000048029755494;
 
+  a = NULL;
+  b = NULL;
+
   return 0;
 }
 
 /* do inplace lowpass filter */
 int Filter::doLowpassFilter(float* const audio_frames, int num_frames)
 {
-  if (is_initialized_ == true && num_frames == 1024) {
-    /* Note: when disconnecting, num_frames jumps tp 2048.
-       Make sure no memory is getting trashed elsewhere */
+  /* do butterworth lowpass */
+  filter_in->length = num_frames;
 
-    /* do butterworth lowpass */
-    filter_in->length = num_frames;
-    memcpy (filter_in->data, audio_frames,
-            sizeof (float) * num_frames);
+  /* todo: make this safer */
+  filter_in->data = audio_frames;
 
-    aubio_filter_do(butter, filter_in);
+  aubio_filter_do(butter, filter_in);
 
-    return 0;
-  }
-
-  else return -1;
+  return 0;
 }
