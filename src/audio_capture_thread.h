@@ -8,7 +8,8 @@ class AudioCapture;
 class AudioCaptureThread : public ThreadWrapper
 {
  public:
-  explicit AudioCaptureThread(JackCpp::RingBuffer<float>*,
+  explicit AudioCaptureThread(JackCpp::RingBuffer<float>* in,
+                              JackCpp::RingBuffer<float>* out,
                               boost::condition*);
   ~AudioCaptureThread();
 
@@ -21,7 +22,8 @@ class AudioCaptureThread : public ThreadWrapper
  private:
   AudioCapture* audio_capture_;
   bool audio_capture_started_;
-  JackCpp::RingBuffer<float>* audio_buffer_;
+  JackCpp::RingBuffer<float>* audio_buffer_in_;
+  JackCpp::RingBuffer<float>* audio_buffer_out_;
 
   boost::condition* go_condition_;
 

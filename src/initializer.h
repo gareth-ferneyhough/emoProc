@@ -19,7 +19,8 @@ class Initializer
   static Initializer* getInstance();
 
  private:
-  JackCpp::RingBuffer<float>* audio_buffer_;
+  JackCpp::RingBuffer<float>* audio_buffer_in_;
+  JackCpp::RingBuffer<float>* audio_buffer_out_;
 
   AudioCaptureThread* audio_capture_;
   AudioProcessorThread* audio_processor_;

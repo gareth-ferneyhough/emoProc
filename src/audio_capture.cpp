@@ -9,17 +9,20 @@
 #include "logger.h"
 #include "settings_mgr.h"
 
-AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* rb,
+AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* in,
+                           JackCpp::RingBuffer<float>* out,
                            boost::condition* cond) :
 
-  JackCpp::AudioIO("jackcpp-test", 1, 0),
+  JackCpp::AudioIO("jackcpp-test", 1, 1), // mono only
   logger_(Logger::getInstance()),
   my_name_(typeid(*this).name()),
   sample_rate_(-1),
-  ring_buffer_(rb),
+  ring_buffer_in_(in),
+  ring_buffer_out_(out),
   go_condition_(cond)
 {
-  assert (ring_buffer_ != NULL);
+  assert (ring_buffer_in_ != NULL);
+  assert (ring_buffer_out_ != NULL);
   assert (go_condition_ != NULL);
 }
 
@@ -35,15 +38,13 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
                                 audioBufVector inBufs,
                                 audioBufVector outBufs)
 {
-  for(unsigned int i = 0; i < inBufs.size(); i++){
-    for(unsigned int j = 0; j < nframes; j++)
-      ring_buffer_->write(inBufs[i][j]);
-  }
-  //std::cout << ring_buffer_->getReadSpace() << std::endl;
-  //std::cout << getSampleRate() << std::endl;
+  ring_buffer_in_->write(inBufs[0], nframes); // mono only
 
-  if (ring_buffer_->getReadSpace() >= 1024)
-    go_condition_->notify_one();
+  int output_size = ring_buffer_out_->getReadSpace();
+  ring_buffer_out_->read(outBufs[0], output_size);
+
+  // if (ring_buffer_->getReadSpace() >= 1024)
+  go_condition_->notify_one();
 
   return 0;
 }
@@ -51,7 +52,7 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
 int AudioCapture::startAudioClient()
 {
   start();
-  connectFromPhysical(0, 0);  // Connect input to port 0
+  connectToPhysical(0, 0);  // Connect output to port 0
 
   SettingsMgr::getInstance()->setSampleRate(getSampleRate());
 

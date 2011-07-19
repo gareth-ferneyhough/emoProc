@@ -30,7 +30,10 @@ int Filter::init()
 
 int Filter::initializeButter()
 {
-  /* create lowpass butterworth filter */
+  /* create lowpass butterworth filter.
+     these params are for sample rate 44100 */
+
+  assert(sample_rate_ == 44100);
 
   butter = new_aubio_filter(7);
 
@@ -56,6 +59,7 @@ int Filter::initializeButter()
   return 0;
 }
 
+/* do inplace lowpass filter */
 int Filter::doLowpassFilter(float* const audio_frames, int num_frames)
 {
   if (is_initialized_ == true && num_frames == 1024) {

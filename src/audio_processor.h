@@ -18,9 +18,11 @@ class AudioProcessor
   ~AudioProcessor();
   void init();
 
-  void setAudioBuffer(JackCpp::RingBuffer<float>* audio_buffer)
+  void setAudioBuffers(JackCpp::RingBuffer<float>* audio_buffer_in,
+                       JackCpp::RingBuffer<float>* audio_buffer_out)
   {
-    audio_buffer_ = audio_buffer;
+    audio_buffer_in_ = audio_buffer_in;
+    audio_buffer_out_ = audio_buffer_out;
   }
 
   void processAudio();
@@ -28,7 +30,8 @@ class AudioProcessor
  private:
   DISALLOW_COPY_AND_ASSIGN(AudioProcessor);
 
-  JackCpp::RingBuffer<float>* audio_buffer_;
+  JackCpp::RingBuffer<float>* audio_buffer_in_;
+  JackCpp::RingBuffer<float>* audio_buffer_out_;
   int sample_rate_;
 
   MyFeatureExtractor* feature_extractor;

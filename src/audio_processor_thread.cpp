@@ -3,16 +3,19 @@
 #include <assert.h>
 #include "audio_processor.h"
 
-AudioProcessorThread::AudioProcessorThread(JackCpp::RingBuffer<float>* rb,
+AudioProcessorThread::AudioProcessorThread(JackCpp::RingBuffer<float>* in,
+                                           JackCpp::RingBuffer<float>* out,
                                            boost::condition* cond) :
   ThreadWrapper (),
   audio_processor_ (NULL),
   audio_processor_started_(false),
-  audio_buffer_(rb),
+  audio_buffer_in_(in),
+  audio_buffer_out_(out),
   go_condition_(cond)
 {
   //ctor
-  assert (audio_buffer_ != NULL);
+  assert (audio_buffer_in_ != NULL);
+  assert (audio_buffer_out_ != NULL);
   assert (go_condition_ != NULL);
 }
 
@@ -25,11 +28,12 @@ AudioProcessorThread::~AudioProcessorThread()
 
 void AudioProcessorThread::runFunction()
 {
-  assert(audio_buffer_ != NULL);
+  assert(audio_buffer_in_ != NULL);
+  assert(audio_buffer_out_ != NULL);
 
   if (!audio_processor_started_){
     audio_processor_ = new AudioProcessor();
-    audio_processor_->setAudioBuffer(audio_buffer_);
+    audio_processor_->setAudioBuffers(audio_buffer_in_, audio_buffer_out_);
     audio_processor_started_ = true;
   }
 

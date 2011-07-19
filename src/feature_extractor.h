@@ -19,7 +19,7 @@ class FeatureExtractor
   const std::string my_name_;
 
  private:
-  virtual void processAudioSampleFunction(const float* audio_frames, int num_frames) = 0;
+  virtual void processAudioSampleFunction(float* audio_frames, int num_frames) = 0;
 };
 
 #endif // FEATUREEXTRACTOR_H

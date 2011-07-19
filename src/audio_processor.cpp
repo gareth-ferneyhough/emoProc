@@ -10,7 +10,8 @@
 #include "my_feature_extractor.h"
 
 AudioProcessor::AudioProcessor() :
-  audio_buffer_(NULL),
+  audio_buffer_in_(NULL),
+  audio_buffer_out_(NULL),
   sample_rate_(-1),
   feature_extractor(NULL),
   logger_(Logger::getInstance()),
@@ -42,20 +43,25 @@ AudioProcessor::~AudioProcessor()
 {
   //dtor
   logger_->writeLog(my_name_, "in Destructor");
+  delete feature_extractor;
 }
 
 void AudioProcessor::processAudio()
 {
-  assert (audio_buffer_ != NULL);
+  // assert (audio_buffer_ != NULL);
 
-  int size = audio_buffer_->getReadSpace();
-  //if (size >= 2056){
-  float* f = new float[size];
+  int size = audio_buffer_in_->getReadSpace();
+  if (size >= 1024){
 
-  for (int i = 0; i < size; i++)
-    audio_buffer_->read(f, size);
+    float* f = new float[size];
+    audio_buffer_in_->read(f, size);
 
-  feature_extractor->processAudioSample(f, size);
-  //}
+    feature_extractor->processAudioSample(f, size);
+
+    /* save output after filtering */
+    audio_buffer_out_->write(f, size);
+
+    delete f;
+  }
 }
 

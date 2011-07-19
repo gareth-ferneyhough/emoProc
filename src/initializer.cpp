@@ -9,7 +9,8 @@
 #include "audio_processor_thread.h"
 
 Initializer::Initializer() :
-  audio_buffer_(NULL),
+  audio_buffer_in_(NULL),
+  audio_buffer_out_(NULL),
   audio_capture_(NULL),
   audio_processor_(NULL),
   logger_(Logger::getInstance()),
@@ -25,7 +26,8 @@ Initializer::~Initializer()
   //dtor
   delete audio_processor_;
   delete audio_capture_;
-  delete audio_buffer_;
+  delete audio_buffer_in_;
+  delete audio_buffer_out_;
 
   logger_->writeLog(my_name_, "in Destructor");
 }
@@ -38,10 +40,11 @@ Initializer* Initializer::getInstance()
 
 int Initializer::init()
 {
-  audio_buffer_ = new JackCpp::RingBuffer<float>(65536);
+  audio_buffer_in_ = new JackCpp::RingBuffer<float>(65536);
+  audio_buffer_out_ = new JackCpp::RingBuffer<float>(65536);
 
-  audio_capture_ = new AudioCaptureThread(audio_buffer_, &c1);
-  audio_processor_ = new AudioProcessorThread(audio_buffer_, &c1);
+  audio_capture_ = new AudioCaptureThread(audio_buffer_in_, audio_buffer_out_, &c1);
+  audio_processor_ = new AudioProcessorThread(audio_buffer_in_, audio_buffer_out_,  &c1);
 
   audio_capture_->startThread();
   audio_processor_->startThread();

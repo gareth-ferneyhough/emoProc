@@ -10,7 +10,8 @@ class Logger;
 class AudioCapture: public JackCpp::AudioIO{
 
  public:
-  explicit AudioCapture(JackCpp::RingBuffer<float>* rb,
+  explicit AudioCapture(JackCpp::RingBuffer<float>* in,
+			JackCpp::RingBuffer<float>* out,
                         boost::condition*);
   ~AudioCapture();
 
@@ -29,7 +30,8 @@ class AudioCapture: public JackCpp::AudioIO{
   jack_nframes_t sample_rate_;
   float audio_frame_ [1024];
 
-  JackCpp::RingBuffer<float>* ring_buffer_;
+  JackCpp::RingBuffer<float>* ring_buffer_in_;
+  JackCpp::RingBuffer<float>* ring_buffer_out_;
 
   boost::condition* go_condition_;
 };

@@ -4,6 +4,7 @@
 #include "feature_extractor.h"
 
 class Pitch;
+class Filter;
 
 class MyFeatureExtractor : public FeatureExtractor
 {
@@ -13,9 +14,10 @@ class MyFeatureExtractor : public FeatureExtractor
 
  private:
   Pitch* pitch;
+  Filter* filter;
 
   void init();
-  void processAudioSampleFunction(const float* audio_frames, int num_frames);
+  void processAudioSampleFunction(float* audio_frames, int num_frames);
 };
 
 #endif // MYFEATUREEXTRACTOR_H
