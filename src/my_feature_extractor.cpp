@@ -30,5 +30,9 @@ MyFeatureExtractor::~MyFeatureExtractor()
 void MyFeatureExtractor::processAudioSampleFunction(float* const audio_frames, int num_frames)
 {
   filter->doLowpassFilter(audio_frames, num_frames);
-  std::cout << pitch->getPitch(audio_frames, num_frames) << std::endl;
+  
+  float the_pitch = pitch->getPitch(audio_frames, num_frames); 
+  if(the_pitch > 87.0 && the_pitch < 500.0){
+    std::cout << the_pitch << std::endl;
+  }
 }
