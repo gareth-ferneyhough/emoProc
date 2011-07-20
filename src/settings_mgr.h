@@ -22,6 +22,26 @@ class SettingsMgr
     settings.sample_rate_ = sample_rate;
   }
 
+  int getPitchWindowSize()
+  {
+    return settings.pitch_window_size_;
+  }
+
+  void setPitchWindowSize(int pitch_window_size)
+  {
+    settings.pitch_window_size_ = pitch_window_size;
+  }
+
+  int getPitchWindowOverlap()
+  {
+    return settings.pitch_window_overlap_;
+  }
+
+  void setSampleRate(int pitch_window_overlap)
+  {
+    settings.pitch_window_overlap_ = pitch_window_overlap;
+  }
+
  private:
   Logger* const logger_;
   const std::string my_name_;
@@ -33,10 +53,14 @@ class SettingsMgr
   class Settings{
   public:
   Settings() :
-    sample_rate_(-1)
+    sample_rate_(-1),
+      pitch_window_size_(-1),
+      pitch_window_overlap_(-1)
       {}
 
-    int sample_rate_;
+    int sample_rate_;          /* sample rate in Hz    */
+    int pitch_window_size_;    /* window size in ms    */
+    int pitch_window_overlap_; /* window overlap in ms */
   };
 
   Settings settings;
