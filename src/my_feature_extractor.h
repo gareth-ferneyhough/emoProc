@@ -13,11 +13,20 @@ class MyFeatureExtractor : public FeatureExtractor
   ~MyFeatureExtractor();
 
  private:
+  int window_size_;
+  int window_overlap_;
+  int window_size_frames_;
+  int window_overlap_frames_;
+
+  float* audio_frames_to_process_;
+
+  JackCpp::RingBuffer<float>* audio_buffer_in_;
+
   Pitch* pitch;
   Filter* filter;
 
   void init();
-  void processAudioSampleFunction(float* audio_frames, int num_frames);
+  void processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames);
 };
 
 #endif // MYFEATUREEXTRACTOR_H

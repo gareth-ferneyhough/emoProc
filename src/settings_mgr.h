@@ -37,7 +37,7 @@ class SettingsMgr
     return settings.pitch_window_overlap_;
   }
 
-  void setSampleRate(int pitch_window_overlap)
+  void setPitchWindowOverlap(int pitch_window_overlap)
   {
     settings.pitch_window_overlap_ = pitch_window_overlap;
   }
@@ -54,9 +54,9 @@ class SettingsMgr
   public:
   Settings() :
     sample_rate_(-1),
-      pitch_window_size_(-1),
-      pitch_window_overlap_(-1)
-      {}
+    pitch_window_size_(20),
+    pitch_window_overlap_(10)
+    {}
 
     int sample_rate_;          /* sample rate in Hz    */
     int pitch_window_size_;    /* window size in ms    */

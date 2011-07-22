@@ -50,18 +50,9 @@ void AudioProcessor::processAudio()
 {
   // assert (audio_buffer_ != NULL);
 
-  int size = audio_buffer_in_->getReadSpace();
-  if (size >= 1024){
+  feature_extractor->processAudioSample(audio_buffer_in_);
 
-    float* f = new float[size];
-    audio_buffer_in_->read(f, size);
-
-    feature_extractor->processAudioSample(f, size);
-
-    /* save output after filtering */
-    audio_buffer_out_->write(f, size);
-
-    delete f;
-  }
+  /* save output after filtering */
+  // audio_buffer_out_->write(f, size);
 }
 
