@@ -2,6 +2,7 @@
 #include <string.h> // for memcpy
 #include <assert.h>
 
+#include <iostream>
 Pitch::Pitch(int sample_rate) :
   sample_rate_(sample_rate)
 {
@@ -54,5 +55,5 @@ float Pitch::getPitch(const float* const audio_frames, int num_frames)
     return float(yin_out->data[0]);
   }
 
-  else return 0;
+  else{ std::cout << "shit\n"; return 0;}
 }
