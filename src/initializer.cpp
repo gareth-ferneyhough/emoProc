@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "audio_capture_thread.h"
 #include "audio_processor_thread.h"
+#include "settings_mgr.h"
 
 Initializer::Initializer() :
   audio_buffer_in_(NULL),
@@ -48,6 +49,9 @@ int Initializer::init()
 
   audio_capture_->startThread();
   audio_processor_->startThread();
+
+  // set some settings
+  SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.00001);
 
   return 0;
 }
