@@ -37,6 +37,7 @@ MyFeatureExtractor::~MyFeatureExtractor()
 void MyFeatureExtractor::processAudioSampleFunction(float* const audio_frames, int num_frames)
 {
   float speech_energy = speech_energy_->getSpeechEnergy(audio_frames, num_frames);
+  logger_->logRawAudio(audio_frames, num_frames);
 
   if(speech_energy >= speech_energy_threshold_){
 

@@ -6,6 +6,10 @@
 
 int main()
 {
+  // these two classes are singleton implementations,
+  // so call them to instanciate. Initializer will spawn
+  // two threads to do audio capture and processing, then return
+  // to main.
   Logger* logger = Logger::getInstance();
   Initializer::getInstance();
 
