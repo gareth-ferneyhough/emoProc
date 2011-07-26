@@ -42,7 +42,7 @@ Initializer* Initializer::getInstance()
 int Initializer::init()
 {
   // set some settings
-  SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.00001);
+  SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.0001);
 
   // audio ring buffers
   audio_buffer_in_ = new JackCpp::RingBuffer<float>(65536);

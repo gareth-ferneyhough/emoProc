@@ -68,6 +68,7 @@ plt.subplot(211)
 plt.plot(raw_audio)
 plt.plot(segment2, 'r')
 plt.xlim(start, end)
+plt.ylim(-1.0, 1.5)
 
 plt.subplot(212)
 plt.plot(pitch)
