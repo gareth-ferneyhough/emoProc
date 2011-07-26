@@ -12,6 +12,8 @@ class Logger
   int writeLog(const std::string& object_name, const std::string& log_entry);
   int writeLog(const std::string& object_name, int log_entry);
   int logRawAudio(const float* const audio_data, int num_frames);
+  int logPitchData(float pitch);
+  int logSpeechSegmentationData(bool speech_detected);
   int saveAllDataToFile();
 
  private:
@@ -21,6 +23,8 @@ class Logger
 
   std::ofstream fout;
   std::vector<float> raw_audio_data_;
+  std::vector<float> pitch_data_;
+  std::vector<int> speech_segmentation_data_;
 };
 
 #endif // LOGGER_H

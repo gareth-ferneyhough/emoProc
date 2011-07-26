@@ -36,18 +36,27 @@ MyFeatureExtractor::~MyFeatureExtractor()
 
 void MyFeatureExtractor::processAudioSampleFunction(float* const audio_frames, int num_frames)
 {
-  float speech_energy = speech_energy_->getSpeechEnergy(audio_frames, num_frames);
   logger_->logRawAudio(audio_frames, num_frames);
 
+  float speech_energy = speech_energy_->getSpeechEnergy(audio_frames, num_frames);
+
   if(speech_energy >= speech_energy_threshold_){
+    logger_->logSpeechSegmentationData(true);
 
     filter_->doLowpassFilter(audio_frames, num_frames);
     int the_pitch = pitch_->getPitch(audio_frames, num_frames);
 
-    if(the_pitch >= 87 && the_pitch <= 320){
-      std::cout << the_pitch << std::endl;
+    if (!(the_pitch >= 87 && the_pitch <= 320)){
+      the_pitch = 0;
     }
 
-    else std::cout << 0 << std::endl;
+    std::cout << the_pitch << std::endl;
+    logger_->logPitchData(the_pitch);
+  }
+
+  // no speech detected
+  else{
+    logger_->logSpeechSegmentationData(false);
+    logger_->logPitchData(0.0);
   }
 }
