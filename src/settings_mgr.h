@@ -12,7 +12,7 @@ class SettingsMgr
  public:
   static SettingsMgr* getInstance();
 
-  int getSampleRate()
+  int getSampleRate() const
   {
     return settings.sample_rate_;
   }
@@ -20,6 +20,16 @@ class SettingsMgr
   void setSampleRate(int sample_rate)
   {
     settings.sample_rate_ = sample_rate;
+  }
+
+  float getSpeechEnergyThreshold() const
+  {
+    return settings.speech_energy_threshold_;
+  }
+
+  void setSpeechEnergyThreshold(float threshold)
+  {
+    settings.speech_energy_threshold_ = threshold;
   }
 
  private:
@@ -33,10 +43,12 @@ class SettingsMgr
   class Settings{
   public:
   Settings() :
-    sample_rate_(-1)
-      {}
+    sample_rate_(-1),
+    speech_energy_threshold_(-1)
+    {}
 
     int sample_rate_;
+    float speech_energy_threshold_;
   };
 
   Settings settings;

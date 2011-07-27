@@ -9,3 +9,4 @@ Makefile
 cmake_install.cmake
 CMakeFiles
 install_manifest.txt
+build/

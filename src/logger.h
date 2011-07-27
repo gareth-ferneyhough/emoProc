@@ -2,7 +2,7 @@
 #define LOGGER_H
 
 #include <fstream>
-
+#include <vector>
 #include "uncopyable.h"
 
 class Logger
@@ -11,6 +11,10 @@ class Logger
   static Logger* getInstance();
   int writeLog(const std::string& object_name, const std::string& log_entry);
   int writeLog(const std::string& object_name, int log_entry);
+  int logRawAudio(const float* const audio_data, int num_frames);
+  int logPitchData(float pitch);
+  int logSpeechSegmentationData(bool speech_detected);
+  int saveAllDataToFile();
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Logger);
@@ -18,6 +22,9 @@ class Logger
   ~Logger(); // same for dtor
 
   std::ofstream fout;
+  std::vector<float> raw_audio_data_;
+  std::vector<float> pitch_data_;
+  std::vector<int> speech_segmentation_data_;
 };
 
 #endif // LOGGER_H

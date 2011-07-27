@@ -5,6 +5,7 @@
 
 class Pitch;
 class Filter;
+class SpeechEnergy;
 
 class MyFeatureExtractor : public FeatureExtractor
 {
@@ -13,8 +14,11 @@ class MyFeatureExtractor : public FeatureExtractor
   ~MyFeatureExtractor();
 
  private:
-  Pitch* pitch;
-  Filter* filter;
+  Pitch* pitch_;
+  Filter* filter_;
+  SpeechEnergy* speech_energy_;
+  
+  float speech_energy_threshold_;
 
   void init();
   void processAudioSampleFunction(float* audio_frames, int num_frames);

@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "audio_capture_thread.h"
 #include "audio_processor_thread.h"
+#include "settings_mgr.h"
 
 Initializer::Initializer() :
   audio_buffer_in_(NULL),
@@ -40,15 +41,21 @@ Initializer* Initializer::getInstance()
 
 int Initializer::init()
 {
+  // set some settings
+  SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.0001);
+
+  // audio ring buffers
   audio_buffer_in_ = new JackCpp::RingBuffer<float>(65536);
   audio_buffer_out_ = new JackCpp::RingBuffer<float>(65536);
 
+  // spawn two threads
   audio_capture_ = new AudioCaptureThread(audio_buffer_in_, audio_buffer_out_, &c1);
   audio_processor_ = new AudioProcessorThread(audio_buffer_in_, audio_buffer_out_,  &c1);
 
   audio_capture_->startThread();
   audio_processor_->startThread();
 
+  // return to main
   return 0;
 }
 
