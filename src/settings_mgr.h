@@ -32,6 +32,26 @@ class SettingsMgr
     settings.speech_energy_threshold_ = threshold;
   }
 
+  int getPitchWindowSize()
+  {
+    return settings.pitch_window_size_;
+  }
+
+  void setPitchWindowSize(int pitch_window_size)
+  {
+    settings.pitch_window_size_ = pitch_window_size;
+  }
+
+  int getPitchWindowOverlap()
+  {
+    return settings.pitch_window_overlap_;
+  }
+
+  void setPitchWindowOverlap(int pitch_window_overlap)
+  {
+    settings.pitch_window_overlap_ = pitch_window_overlap;
+  }
+
  private:
   Logger* const logger_;
   const std::string my_name_;
@@ -44,10 +64,14 @@ class SettingsMgr
   public:
   Settings() :
     sample_rate_(-1),
+    pitch_window_size_(20),
+    pitch_window_overlap_(10),
     speech_energy_threshold_(-1)
     {}
 
-    int sample_rate_;
+    int sample_rate_;          /* sample rate in Hz    */
+    int pitch_window_size_;    /* window size in ms    */
+    int pitch_window_overlap_; /* window overlap in ms */
     float speech_energy_threshold_;
   };
 

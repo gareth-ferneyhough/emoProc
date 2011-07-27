@@ -2,8 +2,8 @@
 #include <string.h> // for memcpy
 #include <assert.h>
 
-#include <iostream>
-Pitch::Pitch(int sample_rate) :
+Pitch::Pitch(int window_size, int sample_rate) :
+  window_size_(window_size),
   sample_rate_(sample_rate)
 {
   //ctor
@@ -23,7 +23,7 @@ int Pitch::init()
 {
   // From aubio pitch example
   /* allocate some memory */
-  uint_t win_s      = 1024;                       /* window size */
+  uint_t win_s      = window_size_;               /* window size */
   uint_t hop_s      = win_s/4;                    /* hop size */
   uint_t samplerate = sample_rate_;               /* samplerate */
   uint_t channels   = 1;                          /* number of channel */
@@ -40,20 +40,13 @@ int Pitch::init()
 
 float Pitch::getPitch(const float* const audio_frames, int num_frames)
 {
-  if (is_initialized_ == true && num_frames == 1024) {
-    /* Note: when disconnecting, num_frames jumps tp 2048.
-       Make sure no memory is getting trashed elsewhere */
+  assert( is_initialized_ == true && num_frames == window_size_);
+  yin_in->length = num_frames;
 
-    yin_in->length = num_frames;
+  /* todo: no need to copy data */
+  memcpy (yin_in->data, audio_frames,
+          sizeof (float) * num_frames);
 
-    /* todo: no need to copy data */
-    memcpy (yin_in->data, audio_frames,
-            sizeof (float) * num_frames);
-
-    aubio_pitch_do(o, yin_in, yin_out);
-
-    return float(yin_out->data[0]);
-  }
-
-  else{ std::cout << "shit\n"; return 0;}
+  aubio_pitch_do(o, yin_in, yin_out);
+  return float(yin_out->data[0]);
 }

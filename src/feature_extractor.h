@@ -2,7 +2,9 @@
 #define FEATUREEXTRACTOR_H
 
 #include <string>
+#include <jackringbuffer.hpp>
 #include "logger.h"
+
 
 class FeatureExtractor
 {
@@ -10,8 +12,8 @@ class FeatureExtractor
   FeatureExtractor();
   virtual ~FeatureExtractor();
 
-  void processAudioSample(float* audio_frames, int num_frames){
-    processAudioSampleFunction(audio_frames, num_frames);
+  void processAudioSample(JackCpp::RingBuffer<float>* audio_frames){
+    processAudioSampleFunction(audio_frames);
   }
 
  protected:
@@ -19,7 +21,7 @@ class FeatureExtractor
   const std::string my_name_;
 
  private:
-  virtual void processAudioSampleFunction(float* audio_frames, int num_frames) = 0;
+  virtual void processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames) = 0;
 };
 
 #endif // FEATUREEXTRACTOR_H
