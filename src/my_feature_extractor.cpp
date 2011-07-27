@@ -28,8 +28,8 @@ void MyFeatureExtractor::init()
   window_size_ = SettingsMgr::getInstance()->getPitchWindowSize();
   window_overlap_ = SettingsMgr::getInstance()->getPitchWindowOverlap();
 
-  window_size_frames_ = (int) (float)window_size_ / (float)1000 * (float)sample_rate;
-  window_overlap_frames_ = (int) (float)window_overlap_ / (float)sample_rate;
+  window_size_frames_ = 1024; //(int) (float)window_size_ / (float)1000 * (float)sample_rate;
+  window_overlap_frames_ = 512; //(int) (float)window_overlap_ / (float)sample_rate;
 
   audio_frames_to_process_ = new float[window_size_frames_];
 

@@ -64,8 +64,8 @@ class SettingsMgr
   public:
   Settings() :
     sample_rate_(-1),
-    pitch_window_size_(20),
-    pitch_window_overlap_(10),
+    pitch_window_size_(-1),
+    pitch_window_overlap_(-1),
     speech_energy_threshold_(-1)
     {}
 
