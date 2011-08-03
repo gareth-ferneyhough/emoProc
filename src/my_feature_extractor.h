@@ -6,6 +6,7 @@
 class Pitch;
 class Filter;
 class SpeechEnergy;
+class Features;
 
 class MyFeatureExtractor : public FeatureExtractor
 {
@@ -26,9 +27,11 @@ class MyFeatureExtractor : public FeatureExtractor
   Pitch* pitch_;
   Filter* filter_;
   SpeechEnergy* speech_energy_;
+  Features* features_;
 
   void init();
   void processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames);
+  void processSpeechSegment(float* audio_frames, int num_frames);
 };
 
 #endif // MYFEATUREEXTRACTOR_H
