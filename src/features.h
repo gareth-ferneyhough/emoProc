@@ -25,7 +25,7 @@ class Features
   float getRMean();
   float getRRange();
 
-  std::vector<float> pitches_;
+  std::vector<double> pitches_; // double only necessary for easy use with alglib
   std::vector<TheFeatures> saved_features_;
   TheFeatures* current_features_;
   int count_;

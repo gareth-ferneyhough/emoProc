@@ -1,6 +1,11 @@
-#include "features.h"
 #include <assert.h>
 #include <fstream>
+#include <iostream>
+
+#include "stdafx.h"
+#include "interpolation.h"
+
+#include "features.h"
 
 Features::Features() :
   current_features_(NULL),
@@ -19,7 +24,8 @@ Features::~Features()
 
 void Features::savePitch(float pitch)
 {
-  pitches_.push_back(pitch);
+  if (pitch > 0)
+    pitches_.push_back(pitch);
 }
 
 void Features::pushFeatures()
@@ -59,7 +65,7 @@ float Features::getPMean()
 {
   float mean = 0;
 
-  std::vector<float>::const_iterator it;
+  std::vector<double>::const_iterator it;
   for (it = pitches_.begin(); it < pitches_.end(); it++)
     mean += *it;
 
@@ -73,7 +79,7 @@ float Features::getPRange()
   float min = 9999;
   float max = 0;
 
-  std::vector<float>::const_iterator it;
+  std::vector<double>::const_iterator it;
   for (it = pitches_.begin(); it < pitches_.end(); it++){
     if (*it > max)
       max = *it;
@@ -91,7 +97,7 @@ float Features::getPVariance()
   float variance = 0;
   float mean = getPMean();
 
-  std::vector<float>::const_iterator it;
+  std::vector<double>::const_iterator it;
   for (it = pitches_.begin(); it < pitches_.end(); it++){
     float diff = mean - *it;
     diff *= diff; // square difference
@@ -104,8 +110,48 @@ float Features::getPVariance()
 
 float Features::getPSlope()
 {
-  // still need to implement some kind of curve fitting
-  return 1.0;
+  double* pitch_data = &pitches_[0];
+
+  int number_of_data_points = pitches_.size();
+  double xmatrix_[number_of_data_points * 2];
+
+  // generate array like this: [1,1,1,2,1,3,1,4,1,5,...]
+  for (int i = 0; i < number_of_data_points * 2; i++){
+    if (i % 2 == 0) // even
+      xmatrix_[i] = 1;
+
+    else //odd
+      xmatrix_[i] = (i + 1) / 2;
+  }
+
+  // dbg
+  // std::cout << "y: \n";
+  // for(int i = 0; i < number_of_data_points; i++)
+  //   std::cout << pitch_data[i] << std::endl;
+
+  // std::cout << "x: \n";
+  // for(int i = 0; i < number_of_data_points*2; i++)
+  //   std::cout << xmatrix_[i] << std::endl;
+  //
+
+  alglib::real_2d_array xmatrix;
+  alglib::real_1d_array y;
+
+  xmatrix.setcontent(number_of_data_points, 2, xmatrix_);
+  y.setcontent(number_of_data_points, pitch_data);
+
+  alglib::ae_int_t info;
+  alglib::real_1d_array c;
+  alglib::lsfitreport rep;
+
+  //
+  // Linear fitting without weights
+  //
+  alglib::lsfitlinear(y, xmatrix, info, c, rep);
+
+  //std::cout << c[0] << ", " << c[1] << std::endl;
+
+  return c[1];
 }
 
 float Features::getRMean()

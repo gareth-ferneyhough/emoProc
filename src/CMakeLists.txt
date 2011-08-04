@@ -1,7 +1,8 @@
 include_directories ("${PROJECT_SOURCE_DIR}/third-party/include")
 include_directories ("${PROJECT_SOURCE_DIR}/third-party/libs")
+include_directories ("${PROJECT_SOURCE_DIR}/src/alg")
 
-file(GLOB emote_SRC
+file(GLOB_RECURSE emote_SRC
   "*.cpp"
 )
 
