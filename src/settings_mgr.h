@@ -32,7 +32,7 @@ class SettingsMgr
     settings.speech_energy_threshold_ = threshold;
   }
 
-  int getPitchWindowSize()
+  int getPitchWindowSize() const
   {
     return settings.pitch_window_size_;
   }
@@ -42,7 +42,7 @@ class SettingsMgr
     settings.pitch_window_size_ = pitch_window_size;
   }
 
-  int getPitchWindowOverlap()
+  int getPitchWindowOverlap() const
   {
     return settings.pitch_window_overlap_;
   }
@@ -50,6 +50,16 @@ class SettingsMgr
   void setPitchWindowOverlap(int pitch_window_overlap)
   {
     settings.pitch_window_overlap_ = pitch_window_overlap;
+  }
+
+  float getMaxSilenceBtwnUtterances() const
+  {
+    return settings.max_silence_btwn_utterances_;
+  }
+
+  void setMaxSilenceBtwnUtterances(float max_silence)
+  {
+    settings.max_silence_btwn_utterances_ = max_silence;
   }
 
  private:
@@ -66,13 +76,15 @@ class SettingsMgr
     sample_rate_(-1),
     pitch_window_size_(-1),
     pitch_window_overlap_(-1),
-    speech_energy_threshold_(-1)
+    speech_energy_threshold_(-1),
+    max_silence_btwn_utterances_(-1)
     {}
 
     int sample_rate_;          /* sample rate in Hz    */
     int pitch_window_size_;    /* window size in ms    */
     int pitch_window_overlap_; /* window overlap in ms */
     float speech_energy_threshold_;
+    float max_silence_btwn_utterances_;
   };
 
   Settings settings;

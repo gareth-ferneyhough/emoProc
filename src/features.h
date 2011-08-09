@@ -15,6 +15,7 @@ class Features
   void saveRaw(const float* const audio_frames, int num_frames);
   void pushFeatures();
   void writeFeatures();
+  void startNewUtterance();
 
  private:
   void reset();
@@ -42,7 +43,8 @@ class TheFeatures
   pitch_variance(0),
   pitch_slope(0),
   raw_mean(0),
-  raw_range(0)
+  raw_range(0),
+  empty_feature(false)  
   {}
 
   float pitch_mean;
@@ -51,6 +53,7 @@ class TheFeatures
   float pitch_slope;
   float raw_mean;
   float raw_range;
+  bool empty_feature;
 };
 
 #endif // FEATURES_H

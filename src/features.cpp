@@ -53,6 +53,39 @@ void Features::pushFeatures()
   }
 }
 
+void Features::writeFeatures()
+{
+  std::ofstream fout;
+  fout.open("features.txt");
+
+  std::vector<TheFeatures>::const_iterator it;
+  for (it = saved_features_.begin(); it < saved_features_.end(); it++){
+    if (it->empty_feature == true)
+      fout << "####" << std::endl;
+
+    else{
+      fout << "1:" << it->pitch_mean << " ";
+      fout << "2:" << it->pitch_range << " ";
+      fout << "3:" << it->pitch_variance << " ";
+      fout << "4:" << it->pitch_slope << " ";
+      fout << "5:" << it->raw_mean << " ";
+      fout << "6:" << it->raw_range << std::endl;
+    }
+  }
+
+  fout.close();
+  fout.clear();
+}
+
+// Used as a placeholder to signal start of a new utterance
+void Features::startNewUtterance()
+{
+  current_features_ = new TheFeatures();
+  current_features_->empty_feature = true;
+  saved_features_.push_back(*current_features_);
+  reset();
+}
+
 void Features::reset()
 {
   if(current_features_ != NULL){
@@ -198,21 +231,3 @@ float Features::getRRange()
   return range;
 }
 
-void Features::writeFeatures()
-{
-  std::ofstream fout;
-  fout.open("features.txt");
-
-  std::vector<TheFeatures>::const_iterator it;
-  for (it = saved_features_.begin(); it < saved_features_.end(); it++){
-    fout << "1:" << it->pitch_mean << " ";
-    fout << "2:" << it->pitch_range << " ";
-    fout << "3:" << it->pitch_variance << " ";
-    fout << "4:" << it->pitch_slope << " ";
-    fout << "5:" << it->raw_mean << " ";
-    fout << "6:" << it->raw_range << std::endl;
-  }
-
-  fout.close();
-  fout.clear();
-}

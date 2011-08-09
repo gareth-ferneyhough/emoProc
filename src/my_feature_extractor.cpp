@@ -13,6 +13,10 @@ MyFeatureExtractor::MyFeatureExtractor() :
   window_size_frames_(-1),
   window_overlap_frames_(-1),
   speech_energy_threshold_(-1),
+  max_silence_(-1),
+  length_silence_(0),
+  new_utterance_(false),
+  sample_rate_(-1),
   audio_frames_to_process_(NULL),
   audio_buffer_in_(NULL),
   pitch_(NULL),
@@ -26,17 +30,18 @@ MyFeatureExtractor::MyFeatureExtractor() :
 
 void MyFeatureExtractor::init()
 {
-  int sample_rate = SettingsMgr::getInstance()->getSampleRate();
+  sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   window_size_ = SettingsMgr::getInstance()->getPitchWindowSize();
   window_overlap_ = SettingsMgr::getInstance()->getPitchWindowOverlap();
+  max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
-  window_size_frames_ = 1024; //(int) (float)window_size_ / (float)1000 * (float)sample_rate;
-  window_overlap_frames_ = 512; //(int) (float)window_overlap_ / (float)sample_rate;
+  window_size_frames_ = 1024; //(int) (float)window_size_ / (float)1000 * (float)sample_rate_;
+  window_overlap_frames_ = 512; //(int) (float)window_overlap_ / (float)sample_rate_;
 
   audio_frames_to_process_ = new float[window_size_frames_];
 
-  pitch_ = new Pitch(window_size_frames_, sample_rate);
-  filter_ = new Filter(sample_rate);
+  pitch_ = new Pitch(window_size_frames_, sample_rate_);
+  filter_ = new Filter(sample_rate_);
   speech_energy_ = new SpeechEnergy();
   speech_energy_threshold_ = SettingsMgr::getInstance()->getSpeechEnergyThreshold();
   features_ = new Features();
@@ -69,11 +74,25 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
 
     // no speech detected
     else{
-      logger_->logSpeechSegmentationData(false);
-      logger_->logPitchData(0.0);
-      features_->pushFeatures();
+      processSilence(window_size_frames_);
     }
   }
+}
+
+void MyFeatureExtractor::processSilence(int num_frames)
+{
+  logger_->logSpeechSegmentationData(false);
+  logger_->logPitchData(0.0);
+  features_->pushFeatures();
+
+  length_silence_ += 1000.0 * (float)num_frames / (sample_rate_); // in ms
+  std::cout << length_silence_ << std::endl;
+
+  if (length_silence_ > max_silence_ && new_utterance_ == true){
+    features_->startNewUtterance();
+    length_silence_ = 0;
+    new_utterance_ = false;
+  }  
 }
 
 void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frames)
@@ -91,4 +110,7 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
   logger_->logPitchData(the_pitch);
   features_->savePitch(the_pitch);
   features_->saveRaw(audio_frames, num_frames);
+
+  length_silence_ = 0;
+  new_utterance_ = true;
 }
