@@ -28,6 +28,18 @@ void Features::savePitch(float pitch)
     pitches_.push_back(pitch);
 }
 
+void Features::saveRaw(const float* const audio_frames, int num_frames)
+{
+  // int current_size = raw_audio_data_.size();
+  // raw_audio_data_.resize(current_size + num_frames);
+  // copy(audio_frames, audio_frames + num_frames, raw_audio_data_.begin() + current_size);
+
+  // need to shift up by 1.0 (methinks)
+  for (int i = 0; i < num_frames; i++){
+    raw_audio_data_.push_back(audio_frames[i] + 2.0);
+  }
+}
+
 void Features::pushFeatures()
 {
   assert(current_features_ == NULL);
@@ -49,6 +61,7 @@ void Features::reset()
   }
 
   pitches_.clear();
+  raw_audio_data_.clear();
 }
 
 void Features::calcFeatures()
@@ -156,12 +169,33 @@ float Features::getPSlope()
 
 float Features::getRMean()
 {
-  return -1;
+  float mean = 0;
+
+  std::vector<double>::const_iterator it;
+  for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++)
+    mean += *it;
+
+  mean /= raw_audio_data_.size();
+
+  return mean;
 }
 
 float Features::getRRange()
 {
-  return -1;
+  float min = 9999;
+  float max = 0;
+
+  std::vector<double>::const_iterator it;
+  for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++){
+    if (*it > max)
+      max = *it;
+
+    if (*it < min)
+      min = *it;
+  }
+
+  float range = max - min;
+  return range;
 }
 
 void Features::writeFeatures()

@@ -12,6 +12,7 @@ class Features
   ~Features();
   
   void savePitch(float pitch);
+  void saveRaw(const float* const audio_frames, int num_frames);
   void pushFeatures();
   void writeFeatures();
 
@@ -26,6 +27,7 @@ class Features
   float getRRange();
 
   std::vector<double> pitches_; // double only necessary for easy use with alglib
+  std::vector<double> raw_audio_data_;     // raw audio data
   std::vector<TheFeatures> saved_features_;
   TheFeatures* current_features_;
   int count_;
