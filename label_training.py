@@ -33,11 +33,11 @@ def getLabels(dir):
     for label in labels:
         if label == 'W':
             ids.append(1)
-        if label == 'L':
-            ids.append(2)
-        if label == 'E':
-            ids.append(3)
         if label == 'A':
+            ids.append(2)
+        if label == 'L':
+            ids.append(3)
+        if label == 'E':
             ids.append(4)
         if label == 'F':
             ids.append(5)
@@ -56,13 +56,16 @@ def labelFeatures(labels, features):
         if line == "####":
             index += 1
         else:
-            labeled_features.append(str(labels[index]) + ' ' + line)    
+            labeled_features.append(str(labels[index]) + ' ' + line)
+
+    if index != len(labels):
+        print "Tooooo many utterances detected. Not enough labels to match."
 
     return labeled_features
 
 ## Main starts here
 features = readFeatures()
-labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav/trial1")
-print labels
+labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/speaker1/anger-fear")
+#print labels
 labeled = labelFeatures(labels, features)                     
 writeFeatures(labeled)
