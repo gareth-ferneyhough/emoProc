@@ -5,6 +5,7 @@
 #include "speech_energy.h"
 #include "settings_mgr.h"
 #include "features.h"
+#include "classifier.h"
 
 MyFeatureExtractor::MyFeatureExtractor() :
   FeatureExtractor(),
@@ -86,9 +87,13 @@ void MyFeatureExtractor::processSilence(int num_frames)
   features_->pushFeatures();
 
   length_silence_ += 1000.0 * (float)num_frames / (sample_rate_); // in ms
-  std::cout << length_silence_ << std::endl;
+  //  std::cout << length_silence_ << std::endl;
 
   if (length_silence_ > max_silence_ && new_utterance_ == true){
+    // classifier->classify(features->lastUtteranceToString();
+    std::string utterance = features_->getLastUtteranceAsString(); 
+    Classifier::getInstance()->scaleData(utterance);
+
     features_->startNewUtterance();
     length_silence_ = 0;
     new_utterance_ = false;

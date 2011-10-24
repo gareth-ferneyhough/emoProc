@@ -2,6 +2,8 @@
 #define FEATURES_H
 
 #include <vector>
+#include <sstream>
+#include <string>
 
 class TheFeatures;
 
@@ -10,12 +12,13 @@ class Features
  public:
   Features();
   ~Features();
-  
+
   void savePitch(float pitch);
   void saveRaw(const float* const audio_frames, int num_frames);
   void pushFeatures();
   void writeFeatures();
   void startNewUtterance();
+  std::string getLastUtteranceAsString() const;
 
  private:
   void reset();
@@ -32,6 +35,8 @@ class Features
   std::vector<TheFeatures> saved_features_;
   TheFeatures* current_features_;
   int count_;
+  int start_of_last_utterance_;
+  
 };
 
 class TheFeatures
@@ -39,13 +44,27 @@ class TheFeatures
  public:
  TheFeatures() :
   pitch_mean(0),
-  pitch_range(0),
-  pitch_variance(0),
-  pitch_slope(0),
-  raw_mean(0),
-  raw_range(0),
-  empty_feature(false)  
-  {}
+    pitch_range(0),
+    pitch_variance(0),
+    pitch_slope(0),
+    raw_mean(0),
+    raw_range(0),
+    empty_feature(false)
+      {}
+
+  const std::string toString() const
+  {
+    std::stringstream ss;
+
+    ss << "1:" << pitch_mean << " ";
+    ss << "2:" << pitch_range << " ";
+    ss << "3:" << pitch_variance << " ";
+    ss << "4:" << pitch_slope << " ";
+    ss << "5:" << raw_mean << " ";
+    ss << "6:" << raw_range << std::endl;
+
+    return ss.str();
+  }
 
   float pitch_mean;
   float pitch_range;

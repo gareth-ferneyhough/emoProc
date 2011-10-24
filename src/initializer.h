@@ -12,6 +12,7 @@
 class Logger;
 class AudioProcessorThread;
 class AudioCaptureThread;
+class Classifier;
 
 class Initializer
 {
@@ -25,6 +26,8 @@ class Initializer
   AudioCaptureThread* audio_capture_;
   AudioProcessorThread* audio_processor_;
   boost::condition c1;
+
+  Classifier* classifier_;
 
   Logger* const logger_;
   const std::string my_name_;

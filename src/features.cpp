@@ -9,7 +9,8 @@
 
 Features::Features() :
   current_features_(NULL),
-  count_(0)
+  count_(0),
+  start_of_last_utterance_(0)
 {
   reset();
 }
@@ -83,7 +84,19 @@ void Features::startNewUtterance()
   current_features_ = new TheFeatures();
   current_features_->empty_feature = true;
   saved_features_.push_back(*current_features_);
+  start_of_last_utterance_ = saved_features_.size();
   reset();
+}
+
+std::string Features::getLastUtteranceAsString() const
+{
+  std::string utterance_string;
+  
+  for(int i = start_of_last_utterance_; i < saved_features_.size(); ++i){
+    utterance_string += saved_features_[i].toString();
+  }
+
+  return utterance_string;
 }
 
 void Features::reset()

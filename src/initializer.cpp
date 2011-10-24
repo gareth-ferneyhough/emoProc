@@ -14,6 +14,7 @@ Initializer::Initializer() :
   audio_buffer_out_(NULL),
   audio_capture_(NULL),
   audio_processor_(NULL),
+  classifier_(NULL),
   logger_(Logger::getInstance()),
   my_name_(typeid(*this).name())
 
