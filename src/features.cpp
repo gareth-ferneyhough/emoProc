@@ -57,7 +57,7 @@ void Features::pushFeatures()
 void Features::writeFeatures()
 {
   std::ofstream fout;
-  fout.open("features.txt");
+  fout.open("../data/features.txt");
 
   std::vector<TheFeatures>::const_iterator it;
   for (it = saved_features_.begin(); it < saved_features_.end(); it++){
@@ -93,6 +93,7 @@ std::string Features::getLastUtteranceAsString() const
   std::string utterance_string;
   
   for(int i = start_of_last_utterance_; i < saved_features_.size(); ++i){
+    utterance_string += "1 ";
     utterance_string += saved_features_[i].toString();
   }
 

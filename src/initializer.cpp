@@ -44,9 +44,11 @@ int Initializer::init()
 {
   // set some settings
   SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.0005);
-  SettingsMgr::getInstance()->setPitchWindowOverlap(10);        // ms. NOT USING CURRENTLY
-  SettingsMgr::getInstance()->setPitchWindowSize(20);           // ms  ""
+  SettingsMgr::getInstance()->setPitchWindowOverlap(10);         // ms. NOT USING CURRENTLY
+  SettingsMgr::getInstance()->setPitchWindowSize(20);            // ms  ""
   SettingsMgr::getInstance()->setMaxSilenceBtwnUtterances(2000); // ms
+
+  SettingsMgr::getInstance()->setModelFilename("../data/model.txt");
 
   // audio ring buffers
   audio_buffer_in_ = new JackCpp::RingBuffer<float>(65536);

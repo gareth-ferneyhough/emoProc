@@ -13,6 +13,7 @@ class Classifier
  public:
   static Classifier* getInstance();
   std::string scaleData(std::string utterance);
+  std::string fileToStr(FILE*);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Classifier);

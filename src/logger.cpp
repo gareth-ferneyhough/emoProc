@@ -69,7 +69,7 @@ int Logger::saveAllDataToFile()
   std::ofstream outfile1;
   
   // save raw audio
-  outfile1.open("raw.dat");
+  outfile1.open("../data/raw.dat");
   
   std::vector<float>::iterator it;
   
@@ -81,7 +81,7 @@ int Logger::saveAllDataToFile()
   outfile1.clear();
 
   // save pitch
-  outfile1.open("pitch.dat");
+  outfile1.open("../data/pitch.dat");
   
   for(it = pitch_data_.begin(); it != pitch_data_.end(); it++){
     outfile1 << *it << std::endl;
@@ -91,7 +91,7 @@ int Logger::saveAllDataToFile()
   outfile1.clear();
 
   // save speech segments
-  outfile1.open("segment.dat");
+  outfile1.open("../data/segment.dat");
   
   std::vector<int>::iterator it2;
   

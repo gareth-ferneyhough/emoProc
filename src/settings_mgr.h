@@ -62,6 +62,16 @@ class SettingsMgr
     settings.max_silence_btwn_utterances_ = max_silence;
   }
 
+  std::string getModelFilename() const
+  {
+    return settings.model_filename_;
+  }
+
+  void setModelFilename(std::string filename)
+  {
+    settings.model_filename_ = filename;
+  }
+
  private:
   Logger* const logger_;
   const std::string my_name_;
@@ -85,6 +95,7 @@ class SettingsMgr
     int pitch_window_overlap_; /* window overlap in ms */
     float speech_energy_threshold_;
     float max_silence_btwn_utterances_;
+    std::string model_filename_;
   };
 
   Settings settings;
