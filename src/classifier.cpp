@@ -39,28 +39,38 @@ std::string Classifier::scaleData(std::string utterance)
 
   std::cout << "pre:\n" << fileToStr(mem_file);
 
-  // scale
+  // ------SVM Scale ----------
   FILE *scaled = fmemopen(NULL, 1000000, "r+");
   FILE *scale_params = fopen("../data/scale-params.txt", "r");
+
   svm_scale(mem_file, scaled, scale_params);
 
   std::cout << "scaled:\n" << fileToStr(scaled);
 
+
+  // ------ SVM Predict ---------
+  FILE *output = fmemopen(NULL, 1000000, "r+");
+  struct svm_model *model;
+  const char *model_filename = "../data/labeled-features.txt.model";
+
+  if((model = svm_load_model(model_filename)) == 0)
+    {
+      fprintf(stderr, "can't open model file %s\n", model_filename);
+      exit(-1);
+    }
+
+  rewind(scaled);
+  my_svm_predict(scaled, output, model);
+
+  std::cout << "classification:\n" << fileToStr(output);
+
   fclose(mem_file);
   fclose(scaled);
+  fclose(output);
+  svm_free_and_destroy_model(&model);
 
-  return "1";//scaled_string;  
+  return "1";
 }
-
-  // // load model
-  // struct svm_model *model;
-  // const char *model_filename = SettingsMgr::getInstance()->getModelFilename().c_str();
-  // if((model=svm_load_model(model_filename))==0)
-  //   {
-  //     fprintf(stderr,"can't open model file %s\n", model_filename);
-  //     exit(1);
-  //   }
-
 
 Classifier* Classifier::getInstance()
 {
