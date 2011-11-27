@@ -5,7 +5,7 @@
 
 #include "uncopyable.h"
 
-extern "C" int svm_scale(FILE* in, FILE* out);
+extern "C" int svm_scale(FILE* in, FILE* out, FILE* restore_params);
 extern "C" int my_svm_predict(FILE* in, FILE* out, struct svm_model* model);
 
 class Classifier

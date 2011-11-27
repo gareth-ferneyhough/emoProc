@@ -5,7 +5,7 @@
 #include <string.h>
 #include "svm.h"
 
-extern "C" int svm_scale(FILE*, FILE*);
+extern "C" int svm_scale(FILE*, FILE*, FILE*);
 
 char *line = NULL;
 int max_line_len = 1024;
@@ -26,7 +26,7 @@ void output_target(double value, FILE*);
 void output(int index, double value, FILE*);
 char* readline(FILE *input);
 
-int svm_scale(FILE* in, FILE* out)
+int svm_scale(FILE* in, FILE* out, FILE* fp_restore)
 {
   int i,index;
 
@@ -35,6 +35,10 @@ int svm_scale(FILE* in, FILE* out)
       fprintf(stderr,"can't open file \n");
       exit(1);
     }
+
+  bool restore_scaling_params = false;
+  if(fp_restore != NULL)
+    restore_scaling_params = true;
 
   line = (char *) malloc(max_line_len*sizeof(char));
 
@@ -51,6 +55,32 @@ int svm_scale(FILE* in, FILE* out)
   /* assumption: min index of attributes is 1 */
   /* pass 1: find out max index of attributes */
   max_index = 0;
+
+  if(restore_scaling_params)
+    {
+      int idx, c;
+
+      // fp_restore = fopen(restore_filename,"r");
+      // if(fp_restore==NULL)
+      //   {
+      //     fprintf(stderr,"can't open file %s\n", restore_filename);
+      //     exit(1);
+      //   }
+
+      c = fgetc(fp_restore);
+      if(c == 'y')
+        {
+          readline(fp_restore);
+          readline(fp_restore);
+          readline(fp_restore);
+        }
+      readline(fp_restore);
+      readline(fp_restore);
+
+      while(fscanf(fp_restore,"%d %*f %*f\n",&idx) == 1)
+        max_index = max(idx,max_index);
+      rewind(fp_restore);
+    }
 
   while(readline(in)!=NULL)
     {
@@ -119,6 +149,37 @@ int svm_scale(FILE* in, FILE* out)
     }
 
   rewind(in);
+
+  /* pass 2.5: save/restore feature_min/feature_max */
+
+  if(restore_scaling_params)
+    {
+      /* fp_restore rewinded in finding max_index */
+      int idx, c;
+      double fmin, fmax;
+
+      if((c = fgetc(fp_restore)) == 'y')
+        {
+          fscanf(fp_restore, "%lf %lf\n", &y_lower, &y_upper);
+          fscanf(fp_restore, "%lf %lf\n", &y_min, &y_max);
+          y_scaling = 1;
+        }
+      else
+        ungetc(c, fp_restore);
+
+      if (fgetc(fp_restore) == 'x') {
+        fscanf(fp_restore, "%lf %lf\n", &lower, &upper);
+        while(fscanf(fp_restore,"%d %lf %lf\n",&idx,&fmin,&fmax)==3)
+          {
+            if(idx<=max_index)
+              {
+                feature_min[idx] = fmin;
+                feature_max[idx] = fmax;
+              }
+          }
+      }
+      fclose(fp_restore);
+    }
 
   /* pass 3: scale */
   while(readline(in)!=NULL)

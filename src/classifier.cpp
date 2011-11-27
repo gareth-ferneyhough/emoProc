@@ -41,7 +41,8 @@ std::string Classifier::scaleData(std::string utterance)
 
   // scale
   FILE *scaled = fmemopen(NULL, 1000000, "r+");
-  svm_scale(mem_file, scaled);
+  FILE *scale_params = fopen("../data/scale-params.txt", "r");
+  svm_scale(mem_file, scaled, scale_params);
 
   std::cout << "scaled:\n" << fileToStr(scaled);
 

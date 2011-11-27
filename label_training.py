@@ -1,7 +1,7 @@
 import os
 
 def readFeatures():
-    f = open("build/features.txt")
+    f = open("data/features.txt")
     a = []
 
     for line in f:
@@ -11,7 +11,7 @@ def readFeatures():
     return a
 
 def writeFeatures(b):
-    f = open("build/labeled-features.txt", 'w')
+    f = open("data/labeled-features.txt", 'w')
     for line in b:
         f.write(line)
         f.write("\n")
