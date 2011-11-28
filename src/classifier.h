@@ -14,6 +14,7 @@ class Classifier
   static Classifier* getInstance();
   std::string scaleData(std::string utterance);
   std::string fileToStr(FILE*);
+  int determineMostFrequentClass(std::string classification_results);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(Classifier);

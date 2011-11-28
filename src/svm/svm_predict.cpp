@@ -5,7 +5,7 @@
 #include <errno.h>
 #include "svm.h"
 
-// forgive me 
+// forgive me
 extern "C" int my_svm_predict(FILE*, FILE*, struct svm_model* );
 
 struct svm_node *x;
@@ -80,9 +80,9 @@ void predict(FILE *input, FILE *output, struct svm_model *model)
 
       label = strtok(line," \t\n");
       if(label == NULL){ // empty line
-      	printf("emptyline\n");
-	break;
-	// exit_input_error(total+1);
+        // printf("emptyline\n");
+        break;
+        // exit_input_error(total+1);
       }
 
       target_label = strtod(label,&endptr);
@@ -151,8 +151,8 @@ void predict(FILE *input, FILE *output, struct svm_model *model)
              );
     }
   else
-    printf("Accuracy = %g%% (%d/%d) (classification)\n",
-           (double)correct/total*100,correct,total);
+    /*printf("Accuracy = %g%% (%d/%d) (classification)\n",
+      (double)correct/total*100,correct,total); */
   if(predict_probability)
     free(prob_estimates);
 }

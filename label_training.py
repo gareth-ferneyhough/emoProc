@@ -65,7 +65,7 @@ def labelFeatures(labels, features):
 
 ## Main starts here
 features = readFeatures()
-labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/speaker1/anger-fear")
+labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/speaker1/happy-sad")
 #print labels
 labeled = labelFeatures(labels, features)                     
 writeFeatures(labeled)
