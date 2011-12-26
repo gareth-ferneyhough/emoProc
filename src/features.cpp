@@ -91,7 +91,7 @@ void Features::startNewUtterance()
 std::string Features::getLastUtteranceAsString() const
 {
   std::string utterance_string;
-  
+
   for(int i = start_of_last_utterance_; i < saved_features_.size(); ++i){
     utterance_string += "1 ";
     utterance_string += saved_features_[i].toString();
@@ -124,12 +124,16 @@ void Features::calcFeatures()
 float Features::getPMean()
 {
   float mean = 0;
+  int count = 0;
 
   std::vector<double>::const_iterator it;
-  for (it = pitches_.begin(); it < pitches_.end(); it++)
-    mean += *it;
-
-  mean /= pitches_.size();
+  for (it = pitches_.begin(); it < pitches_.end(); it++){
+    if (*it != 0){
+      mean += *it;
+      count++;
+    }
+  }
+  mean /= count;
 
   return mean;
 }
@@ -141,11 +145,13 @@ float Features::getPRange()
 
   std::vector<double>::const_iterator it;
   for (it = pitches_.begin(); it < pitches_.end(); it++){
-    if (*it > max)
-      max = *it;
+    if (*it != 0){
+      if (*it > max)
+        max = *it;
 
-    if (*it < min)
-      min = *it;
+      if (*it < min)
+        min = *it;
+    }
   }
 
   float range = max - min;
@@ -156,23 +162,35 @@ float Features::getPVariance()
 {
   float variance = 0;
   float mean = getPMean();
+  int count = 0;
 
   std::vector<double>::const_iterator it;
   for (it = pitches_.begin(); it < pitches_.end(); it++){
-    float diff = mean - *it;
-    diff *= diff; // square difference
-    variance += diff;
+    if (*it != 0){
+      float diff = mean - *it;
+      diff *= diff; // square difference
+      variance += diff;
+      count++;
+    }
   }
 
-  variance /= pitches_.size(); // take the average
+  variance /= count; // take the average
   return variance;
 }
 
 float Features::getPSlope()
 {
-  double* pitch_data = &pitches_[0];
+  // Remove zeros from pitches_
+  std::vector<double> new_pitches;
+  std::vector<double>::const_iterator it;
+  for (it = pitches_.begin(); it < pitches_.end(); it++){
+    if (*it != 0)
+      new_pitches.push_back(*it);
+  }
 
-  int number_of_data_points = pitches_.size();
+  double* pitch_data = &new_pitches[0]; //&pitches_[0];
+  
+  int number_of_data_points = new_pitches.size(); //pitches_.size();
   double xmatrix_[number_of_data_points * 2];
 
   // generate array like this: [1,1,1,2,1,3,1,4,1,5,...]

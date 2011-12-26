@@ -20,7 +20,8 @@ class MyFeatureExtractor : public FeatureExtractor
   int window_size_frames_;
   int window_overlap_frames_;
   float speech_energy_threshold_;
-  
+  float previous_pitch_;
+
   float max_silence_;
   float length_silence_;
   bool new_utterance_;

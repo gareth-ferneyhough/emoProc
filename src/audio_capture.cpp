@@ -24,6 +24,13 @@ AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* in,
   assert (ring_buffer_in_ != NULL);
   assert (ring_buffer_out_ != NULL);
   assert (go_condition_ != NULL);
+
+  float zeros[512];
+  for(int i = 0; i < 512; i++){
+    zeros[i] = 0;
+  }
+
+  ring_buffer_in_->write(zeros, 512);
 }
 
 AudioCapture::~AudioCapture()
@@ -38,12 +45,35 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
                                 audioBufVector inBufs,
                                 audioBufVector outBufs)
 {
-  ring_buffer_in_->write(inBufs[0], nframes); // mono only
+  if (nframes == 1024){
+    ring_buffer_in_->write(&inBufs[0][0], 512);
+    ring_buffer_in_->write(&inBufs[0][0], 512);
+    ring_buffer_in_->write(&inBufs[0][511], 512);
+    ring_buffer_in_->write(&inBufs[0][511], 512);
 
-  int output_size = ring_buffer_out_->getReadSpace();
-  ring_buffer_out_->read(outBufs[0], output_size);
+    // ring_buffer_in_->write(&inBufs[0][0], 128);
+    // ring_buffer_in_->write(&inBufs[0][0], 128);
+    // ring_buffer_in_->write(&inBufs[0][127], 128);
+    // ring_buffer_in_->write(&inBufs[0][127], 128);
+    // ring_buffer_in_->write(&inBufs[0][255], 128);
+    // ring_buffer_in_->write(&inBufs[0][255], 128);
+    // ring_buffer_in_->write(&inBufs[0][383], 128);
+    // ring_buffer_in_->write(&inBufs[0][383], 128);
+    // ring_buffer_in_->write(&inBufs[0][511], 128);
+    // ring_buffer_in_->write(&inBufs[0][511], 128);
+    // ring_buffer_in_->write(&inBufs[0][639], 128);
+    // ring_buffer_in_->write(&inBufs[0][639], 128);
+    // ring_buffer_in_->write(&inBufs[0][767], 128);
+    // ring_buffer_in_->write(&inBufs[0][767], 128);
+    // ring_buffer_in_->write(&inBufs[0][895], 128);
+    // ring_buffer_in_->write(&inBufs[0][895], 128);
 
-  // if (ring_buffer_->getReadSpace() >= 1024)
+    //    ring_buffer_in_->write(inBufs[0], nframes);
+  }
+  //int output_size = ring_buffer_out_->getReadSpace();
+  //ring_buffer_out_->read(outBufs[0], output_size);
+
+  //std::cout << ring_buffer_in_->getReadSpace() << std::endl;
   go_condition_->notify_one();
 
   return 0;

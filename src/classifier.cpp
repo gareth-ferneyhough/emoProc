@@ -40,7 +40,7 @@ std::string Classifier::scaleData(std::string utterance)
   char* c_str_buffer = const_cast<char*>(utterance.c_str());
   FILE* mem_file = fmemopen(c_str_buffer, (utterance.length())*sizeof(char), "r");
 
-  //std::cout << "pre:\n" << fileToStr(mem_file);
+  std::cout << "pre:\n" << fileToStr(mem_file);
 
   // ------SVM Scale ----------
   FILE *scaled = fmemopen(NULL, 1000000, "r+");
@@ -80,6 +80,7 @@ int Classifier::determineMostFrequentClass(std::string classification_results)
 {
   /* Important: Only works if classes have single-digit ID's!! See param id_length in this function. */
 
+  //  std::cout << "utterance length: " << classification_results.size() << std::endl;
   std::vector<int> int_ids;
 
   int pos = 0;
@@ -94,8 +95,8 @@ int Classifier::determineMostFrequentClass(std::string classification_results)
     pos += 2; // skip newline characters that separate each classification_result   
   }
   
-  std::copy(int_ids.begin(), int_ids.end(), std::ostream_iterator<int> (std::cout, " "));
-  std::cout << std::endl;
+  //  std::copy(int_ids.begin(), int_ids.end(), std::ostream_iterator<int> (std::cout, " "));
+  //  std::cout << std::endl;
 
   return 0; 
 }

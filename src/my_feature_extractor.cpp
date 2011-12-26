@@ -14,6 +14,7 @@ MyFeatureExtractor::MyFeatureExtractor() :
   window_size_frames_(-1),
   window_overlap_frames_(-1),
   speech_energy_threshold_(-1),
+  previous_pitch_(0),
   max_silence_(-1),
   length_silence_(0),
   new_utterance_(false),
@@ -70,7 +71,6 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
     // speech detected
     if(speech_energy >= speech_energy_threshold_){
       processSpeechSegment(audio_frames_to_process_, window_size_frames_);
-
     }
 
     // no speech detected
@@ -90,9 +90,8 @@ void MyFeatureExtractor::processSilence(int num_frames)
   //  std::cout << length_silence_ << std::endl;
 
   if (length_silence_ > max_silence_ && new_utterance_ == true){
-    // classifier->classify(features->lastUtteranceToString();
     std::string utterance = features_->getLastUtteranceAsString(); 
-    Classifier::getInstance()->scaleData(utterance);
+    //Classifier::getInstance()->scaleData(utterance);
 
     features_->startNewUtterance();
     length_silence_ = 0;
@@ -104,12 +103,15 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
 {
   logger_->logSpeechSegmentationData(true);
 
-  filter_->doLowpassFilter(audio_frames, num_frames);
+  //  filter_->doLowpassFilter(audio_frames, num_frames);
   int the_pitch = pitch_->getPitch(audio_frames, num_frames);
 
   if (!(the_pitch >= 87 && the_pitch <= 320)){
     the_pitch = 0;
+    // the_pitch = previous_pitch_;
   }
+
+  previous_pitch_ = the_pitch;
 
   //std::cout << the_pitch << std::endl;
   logger_->logPitchData(the_pitch);
