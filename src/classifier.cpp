@@ -40,7 +40,7 @@ std::string Classifier::scaleData(std::string utterance)
   char* c_str_buffer = const_cast<char*>(utterance.c_str());
   FILE* mem_file = fmemopen(c_str_buffer, (utterance.length())*sizeof(char), "r");
 
-  std::cout << "pre:\n" << fileToStr(mem_file);
+  //std::cout << "pre:\n" << fileToStr(mem_file);
 
   // ------SVM Scale ----------
   FILE *scaled = fmemopen(NULL, 1000000, "r+");
@@ -95,8 +95,33 @@ int Classifier::determineMostFrequentClass(std::string classification_results)
     pos += 2; // skip newline characters that separate each classification_result   
   }
   
-  //  std::copy(int_ids.begin(), int_ids.end(), std::ostream_iterator<int> (std::cout, " "));
-  //  std::cout << std::endl;
+  //std::copy(int_ids.begin(), int_ids.end(), std::ostream_iterator<int> (std::cout, " "));
+  //std::cout << std::endl;
+
+  // uber hack
+  int bins[10];
+  for(int i = 0; i < 10; i++){
+    bins[i] = 0;
+  }
+
+  std::vector<int>::iterator it;
+  for(it = int_ids.begin(); it != int_ids.end(); ++it){
+    bins[*it]++;
+  }
+
+  int most_frequent = 0;
+  int num_occurences = 0;
+
+  for(int i = 0; i < 10; i++){
+    if (bins[i] >= num_occurences){
+      num_occurences = bins[i];
+      most_frequent = i;
+    }
+  }
+
+  float confidence = (float)num_occurences / int_ids.size();
+
+  std::cout << "Class: " << most_frequent << " Confidence: " << confidence << std::endl;
 
   return 0; 
 }
