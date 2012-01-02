@@ -32,19 +32,19 @@ def getLabels(dir):
     ids = []
     for label in labels:
         if label == 'W':
-            ids.append(1)
+            ids.append(1) # Anger
         if label == 'A':
-            ids.append(2)
+            ids.append(2) # Fear
         if label == 'L':
-            ids.append(3)
+            ids.append(3) # Boredom
         if label == 'E':
-            ids.append(4)
+            ids.append(4) # Disgust
         if label == 'F':
-            ids.append(5)
+            ids.append(5) # Happy
         if label == 'T':
-            ids.append(6)
+            ids.append(6) # Sad
         if label == 'N':
-            ids.append(7)
+            ids.append(7) # Neutral
 
     return ids
 
@@ -66,7 +66,7 @@ def labelFeatures(labels, features):
 ## Main starts here
 features = readFeatures()
 #labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/speaker1/happy-sad")
-labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/happy-sad-male/test")
+labels = getLabels("/home/gareth/BrainLab/berlin-speech-database/wav-2-sec/happy-sad-angry-fear-male/test1")
 #print labels
 labeled = labelFeatures(labels, features)                     
 writeFeatures(labeled)

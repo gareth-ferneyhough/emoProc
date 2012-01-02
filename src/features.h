@@ -27,8 +27,10 @@ class Features
   float getPRange();
   float getPVariance();
   float getPSlope();
-  float getRMean();
-  float getRRange();
+  float getSpeechEnergy();
+  float getFrameLength();
+  //  float getRMean();
+  //  float getRRange();
 
   std::vector<double> pitches_; // double only necessary for easy use with alglib
   std::vector<double> raw_audio_data_;     // raw audio data
@@ -47,8 +49,8 @@ class TheFeatures
     pitch_range(0),
     pitch_variance(0),
     pitch_slope(0),
-    raw_mean(0),
-    raw_range(0),
+    speech_energy(0),
+    frame_length(0),
     empty_feature(false)
       {}
 
@@ -60,8 +62,10 @@ class TheFeatures
     ss << "2:" << pitch_range << " ";
     ss << "3:" << pitch_variance << " ";
     ss << "4:" << pitch_slope << " ";
-    ss << "5:" << raw_mean << " ";
-    ss << "6:" << raw_range << std::endl;
+    ss << "5:" << speech_energy << " ";
+    ss << "6:" << frame_length  << " ";
+    //    ss << "5:" << raw_mean << " ";
+    //    ss << "6:" << raw_range << std::endl;
 
     return ss.str();
   }
@@ -70,8 +74,10 @@ class TheFeatures
   float pitch_range;
   float pitch_variance;
   float pitch_slope;
-  float raw_mean;
-  float raw_range;
+  //  float raw_mean;
+  //  float raw_range;
+  float speech_energy;
+  float frame_length;
   bool empty_feature;
 };
 

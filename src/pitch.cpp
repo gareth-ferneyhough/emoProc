@@ -30,7 +30,7 @@ int Pitch::init()
 
   yin_in = new_fvec (win_s); /* input buffer */
   yin_out = new_fvec(1);
-  o  = new_aubio_pitch("yin", win_s, hop_s, samplerate);
+  o  = new_aubio_pitch("yinfft", win_s, hop_s, samplerate);
   aubio_pitch_set_unit(o, "freq");
 
   is_initialized_ = true;

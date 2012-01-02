@@ -91,7 +91,7 @@ void MyFeatureExtractor::processSilence(int num_frames)
 
   if (length_silence_ > max_silence_ && new_utterance_ == true){
     std::string utterance = features_->getLastUtteranceAsString(); 
-    Classifier::getInstance()->scaleData(utterance);
+    //    Classifier::getInstance()->scaleData(utterance);
 
     features_->startNewUtterance();
     length_silence_ = 0;
@@ -106,9 +106,9 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
   //  filter_->doLowpassFilter(audio_frames, num_frames);
   int the_pitch = pitch_->getPitch(audio_frames, num_frames);
 
-  if (!(the_pitch >= 87 && the_pitch <= 320)){
-    the_pitch = 0;
-  }
+  // if (!(the_pitch >= 87 && the_pitch <= 320)){
+  //   the_pitch = 0;
+  // }
 
   //std::cout << the_pitch << std::endl;
   logger_->logPitchData(the_pitch);

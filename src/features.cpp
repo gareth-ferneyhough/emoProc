@@ -6,6 +6,7 @@
 #include "interpolation.h"
 
 #include "features.h"
+#include "speech_energy.h"
 
 Features::Features() :
   current_features_(NULL),
@@ -69,8 +70,8 @@ void Features::writeFeatures()
       fout << "2:" << it->pitch_range << " ";
       fout << "3:" << it->pitch_variance << " ";
       fout << "4:" << it->pitch_slope << " ";
-      fout << "5:" << it->raw_mean << " ";
-      fout << "6:" << it->raw_range << std::endl;
+      fout << "5:" << it->speech_energy << " ";
+      fout << "6:" << it->frame_length << std::endl;
     }
   }
 
@@ -117,8 +118,10 @@ void Features::calcFeatures()
   current_features_->pitch_range = getPRange();
   current_features_->pitch_variance = getPVariance();
   current_features_->pitch_slope = getPSlope();
-  current_features_->raw_mean = getRMean();
-  current_features_->raw_range = getRRange();
+  current_features_->speech_energy = getSpeechEnergy();
+  current_features_->frame_length = getFrameLength();
+  //  current_features_->raw_mean = getRMean();
+  //  current_features_->raw_range = getRRange();
 }
 
 float Features::getPMean()
@@ -189,7 +192,7 @@ float Features::getPSlope()
   }
 
   double* pitch_data = &new_pitches[0]; //&pitches_[0];
-  
+
   int number_of_data_points = new_pitches.size(); //pitches_.size();
   double xmatrix_[number_of_data_points * 2];
 
@@ -232,34 +235,54 @@ float Features::getPSlope()
   return c[1];
 }
 
-float Features::getRMean()
+float Features::getSpeechEnergy()
 {
-  float mean = 0;
+  double sum_of_squares = 0;
 
   std::vector<double>::const_iterator it;
   for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++)
-    mean += *it;
+    sum_of_squares += (*it) * (*it);
 
-  mean /= raw_audio_data_.size();
+  double speech_energy = sum_of_squares / (float)raw_audio_data_.size();
 
-  return mean;
+  return (float)speech_energy;
+
+  //  return SpeechEnergy::getSpeechEnergy((float*)&raw_audio_data_[0], raw_audio_data_.size());
 }
 
-float Features::getRRange()
+float Features::getFrameLength()
 {
-  float min = 9999;
-  float max = 0;
-
-  std::vector<double>::const_iterator it;
-  for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++){
-    if (*it > max)
-      max = *it;
-
-    if (*it < min)
-      min = *it;
-  }
-
-  float range = max - min;
-  return range;
+  return raw_audio_data_.size();
 }
+
+// float Features::getRMean()
+// {
+//   float mean = 0;
+
+//   std::vector<double>::const_iterator it;
+//   for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++)
+//     mean += *it;
+
+//   mean /= raw_audio_data_.size();
+
+//   return mean;
+// }
+
+// float Features::getRRange()
+// {
+//   float min = 9999;
+//   float max = 0;
+
+//   std::vector<double>::const_iterator it;
+//   for (it = raw_audio_data_.begin(); it < raw_audio_data_.end(); it++){
+//     if (*it > max)
+//       max = *it;
+
+//     if (*it < min)
+//       min = *it;
+//   }
+
+//   float range = max - min;
+//   return range;
+// }
 
