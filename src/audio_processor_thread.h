@@ -1,7 +1,7 @@
 #ifndef AUDIOPROCESSORTHREAD_H
 #define AUDIOPROCESSORTHREAD_H
 
-#include <jackringbuffer.hpp>
+#include "jackcpp/jackringbuffer.hpp"
 #include "thread.h"
 
 class AudioProcessor;

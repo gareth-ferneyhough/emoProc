@@ -104,8 +104,6 @@ int main (int argc, char *argv[])
     exit (1);
   }
 
-
-
   // read file and change sample rate if necessary
   char filename[100];
   strncpy(filename, argv[1], 100);
@@ -147,10 +145,13 @@ int main (int argc, char *argv[])
     exit (1);
   }
 
-  // Dont connect to output port
-  if (jack_connect (client, jack_port_name (output_port), ports[0])) {
+  // !!!!Connect to emote input port!!!!
+  if (jack_connect (client, jack_port_name (output_port), "jackcpp-test:input0")) {
     fprintf (stderr, "cannot connect output ports\n");
   }
+  /* if (jack_connect (client, jack_port_name (output_port), ports[3])) { */
+  /*   fprintf (stderr, "cannot connect output ports\n"); */
+  /* } */
 
   free (ports);
 

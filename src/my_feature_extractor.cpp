@@ -110,7 +110,7 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
   //   the_pitch = 0;
   // }
 
-  //std::cout << the_pitch << std::endl;
+  std::cout << the_pitch << std::endl;
   logger_->logPitchData(the_pitch);
   features_->savePitch(the_pitch);
   features_->saveRaw(audio_frames, num_frames);

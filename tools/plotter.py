@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 
 ## Read in data ##
-f = open("data/raw.dat")
+f = open("../data/raw.dat")
 strs = f.read()
 strs = strs.split()
 
@@ -12,7 +12,7 @@ raw_audio = []
 for flt in strs:
     raw_audio.append(float(flt))
 
-f = open("data/segment.dat")
+f = open("../data/segment.dat")
 strs = f.read()
 strs = strs.split()
 
@@ -20,7 +20,7 @@ segment = []
 for flt in strs:
     segment.append(float(flt))
 
-f = open("data/pitch.dat")
+f = open("../data/pitch.dat")
 strs = f.read()
 strs = strs.split()
 

@@ -5,7 +5,7 @@
 #include <typeinfo>
 
 #include <boost/thread/condition.hpp>
-#include <jackringbuffer.hpp>
+#include "jackcpp/jackringbuffer.hpp"
 
 #include "uncopyable.h"
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-#include <jackringbuffer.hpp>
+#include "jackcpp/jackringbuffer.hpp"
 #include "logger.h"
 #include "settings_mgr.h"
 
@@ -45,33 +45,7 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
                                 audioBufVector inBufs,
                                 audioBufVector outBufs)
 {
-  if (nframes == 1024){
-    ring_buffer_in_->write(&inBufs[0][0], 512);
-    ring_buffer_in_->write(&inBufs[0][0], 512);
-    ring_buffer_in_->write(&inBufs[0][511], 512);
-    ring_buffer_in_->write(&inBufs[0][511], 512);
-
-    // ring_buffer_in_->write(&inBufs[0][0], 128);
-    // ring_buffer_in_->write(&inBufs[0][0], 128);
-    // ring_buffer_in_->write(&inBufs[0][127], 128);
-    // ring_buffer_in_->write(&inBufs[0][127], 128);
-    // ring_buffer_in_->write(&inBufs[0][255], 128);
-    // ring_buffer_in_->write(&inBufs[0][255], 128);
-    // ring_buffer_in_->write(&inBufs[0][383], 128);
-    // ring_buffer_in_->write(&inBufs[0][383], 128);
-    // ring_buffer_in_->write(&inBufs[0][511], 128);
-    // ring_buffer_in_->write(&inBufs[0][511], 128);
-    // ring_buffer_in_->write(&inBufs[0][639], 128);
-    // ring_buffer_in_->write(&inBufs[0][639], 128);
-    // ring_buffer_in_->write(&inBufs[0][767], 128);
-    // ring_buffer_in_->write(&inBufs[0][767], 128);
-    // ring_buffer_in_->write(&inBufs[0][895], 128);
-    // ring_buffer_in_->write(&inBufs[0][895], 128);
-
-    //    ring_buffer_in_->write(inBufs[0], nframes);
-  }
-  //int output_size = ring_buffer_out_->getReadSpace();
-  //ring_buffer_out_->read(outBufs[0], output_size);
+  ring_buffer_in_->write(&inBufs[0][0], nframes);
 
   //std::cout << ring_buffer_in_->getReadSpace() << std::endl;
   go_condition_->notify_one();

@@ -2,7 +2,7 @@
 #define FEATUREEXTRACTOR_H
 
 #include <string>
-#include <jackringbuffer.hpp>
+#include "jackcpp/jackringbuffer.hpp"
 #include "logger.h"
 
 

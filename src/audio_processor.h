@@ -4,7 +4,7 @@
 #include <string>
 #include <typeinfo>
 
-#include <jackringbuffer.hpp>
+#include "jackcpp/jackringbuffer.hpp"
 
 #include "uncopyable.h"
 
