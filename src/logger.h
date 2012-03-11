@@ -12,6 +12,8 @@ class Logger
   int writeLog(const std::string& object_name, const std::string& log_entry);
   int writeLog(const std::string& object_name, int log_entry);
   int logRawAudio(const float* const audio_data, int num_frames);
+  int logRawAudioD(const double* const audio_data, int num_frames);
+
   int logPitchData(float pitch);
   int logSpeechSegmentationData(bool speech_detected);
   int saveAllDataToFile();

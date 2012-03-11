@@ -52,6 +52,15 @@ int Logger::logRawAudio(const float* const audio_frames, int num_frames)
   return 0;
 }
 
+int Logger::logRawAudioD(const double* const audio_frames, int num_frames)
+{
+  int current_size = raw_audio_data_.size();
+  raw_audio_data_.resize(current_size + num_frames);
+  copy(audio_frames, audio_frames + num_frames, raw_audio_data_.begin() + current_size);
+
+  return 0;
+}
+
 int Logger::logPitchData(float pitch)
 {
   pitch_data_.push_back(pitch);

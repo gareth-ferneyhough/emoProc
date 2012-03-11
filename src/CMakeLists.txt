@@ -1,13 +1,12 @@
-include_directories ("${PROJECT_SOURCE_DIR}/third-party/include")
-include_directories ("${PROJECT_SOURCE_DIR}/third-party/libs")
 include_directories ("${PROJECT_SOURCE_DIR}/src/alg")
 include_directories ("${PROJECT_SOURCE_DIR}/src/svm")
+link_directories ("${PROJECT_SOURCE_DIR}/src/lib")
 
 file(GLOB_RECURSE emote_SRC
   "*.c*"
 )
 
-set (EXTRA_LIBS ${EXTRA_LIBS} boost_thread jack jackcpp aubio)
+set (EXTRA_LIBS ${EXTRA_LIBS} boost_thread jack jackcpp aubio getf0 m sndfile)
 
 add_executable (emote ${emote_SRC})
 
