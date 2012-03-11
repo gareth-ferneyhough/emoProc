@@ -34,14 +34,13 @@ void MyFeatureExtractor::init()
   //sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
-  // window_size_ = 1024;
-  //window_overlap_ = 512;
-
+  audio_frames = new JackCpp::RingBuffer<float>(65536);
   testProcessFromFile();
 
   //pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   //features_ = new Features();
-  //audio_frames_to_process_ = new float[window_size_];
+  //  audio_frames_to_process_ = new float[window_size];
+  audio_frames_to_process_ = new float[65536];
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
@@ -52,28 +51,27 @@ MyFeatureExtractor::~MyFeatureExtractor()
   delete features_;
 }
 
-void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames)
+void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames_old)
 {
-  // // read audio frames from ringbuffer and process speech segments.
-  // while(audio_frames->getReadSpace() >= window_size_){    
-  //   std::cout << audio_frames->getReadSpace() << std::endl;
-
-  //   audio_frames->peek(audio_frames_to_process_, window_size_);
-  //   audio_frames->erase(window_overlap_);
-
-  //   //logger_->logRawAudio(audio_frames_to_process_, window_size_);
+  // read audio frames from ringbuffer and process speech segments.
+  while(audio_frames->getReadSpace() >= window_size_){    
     
-  //   processSpeechSegment(audio_frames_to_process_, window_size_);
-  //   // // speech detected
-  //   // if(speech_energy >= speech_energy_threshold_){
-  //   //   processSpeechSegment(audio_frames_to_process_, window_size);
-  //   // }
+    audio_frames->peek(audio_frames_to_process_, window_size_);
+    audio_frames->erase(window_overlap_);
 
-  //   // // no speech detected
-  //   // else{
-  //   //   processSilence(window_size);
-  //   // }
-  // }
+    //logger_->logRawAudio(audio_frames_to_process_, window_size_);
+    
+    processSpeechSegment(audio_frames_to_process_, window_size_);
+    // // speech detected
+    // if(speech_energy >= speech_energy_threshold_){
+    //   processSpeechSegment(audio_frames_to_process_, window_size);
+    // }
+
+    // // no speech detected
+    // else{
+    //   processSilence(window_size);
+    // }
+  }
 }
 
 void MyFeatureExtractor::processSilence(int num_frames)
@@ -123,30 +121,31 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
 
 void MyFeatureExtractor::testProcessFromFile()
 {
-  double *audio_frames;
-  int sample_rate;
+  float *audio_frames_f;
   int sample_length;
   const char *filename = "in.wav";
 
-  readFile(filename, &audio_frames, &sample_length, &sample_rate);
+  readFile(filename, &audio_frames_f, &sample_length, &sample_rate_);
   int frames_remaining = sample_length;
 
   // init pitch
-  int window_size;
-  int window_stride;
-  pitch_ = new Pitch(sample_rate, window_size, window_stride);
+  pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   
-  int rt = 1;
-  int index = 0;
-  do{
-    rt = pitch_->getPitch(&audio_frames[index], window_size);
-    index += window_stride;
-  }
-  while (rt != 0);
+  // push this all to ringbuffer
+  audio_frames->write(audio_frames_f, sample_length);
+  
+
+  // int rt = 1;
+  // int index = 0;
+  // do{
+  //   rt = pitch_->getPitch(&audio_frames[index], window_size);
+  //   index += window_stride;
+  // }
+  // while (rt != 0);
 }
 
 // Read input file with libsndfile
-void MyFeatureExtractor::readFile(const char *filename, double **audio_frames, int *sample_length, int *sample_rate)
+void MyFeatureExtractor::readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate)
 {
   SNDFILE *infile;
   SF_INFO sfinfo;
@@ -169,8 +168,8 @@ void MyFeatureExtractor::readFile(const char *filename, double **audio_frames, i
   *sample_length = sfinfo.frames;
   *sample_rate = sfinfo.samplerate;
 
-  (*audio_frames) = (double*)malloc(*sample_length * sizeof(double));
-  int readcount = sf_readf_double(infile, (*audio_frames), *sample_length);
+  (*audio_frames) = (float*)malloc(*sample_length * sizeof(float));
+  int readcount = sf_readf_float(infile, (*audio_frames), *sample_length);
 
   if (readcount != *sample_length){
     printf("Error reading sound file\n");

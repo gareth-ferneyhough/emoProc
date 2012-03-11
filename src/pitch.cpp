@@ -90,7 +90,7 @@ int Pitch::getPitch(double* new_input_frames, int num_frames)
     sum += input_frames[i];
   }    
 
-  std::cout << "sum: " << sum << std::endl;
+  //std::cout << "sum: " << sum << std::endl;
 
   // get pitch
   float *pitch, *probability_voicing, *rms_speech, *acpkp;
