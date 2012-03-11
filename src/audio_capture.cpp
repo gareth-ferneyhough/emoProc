@@ -46,8 +46,9 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
                                 audioBufVector outBufs)
 {
   //  ring_buffer_in_->write(&inBufs[0][0], nframes);
+  for (int i = 0; i < nframes; i += 10)
+    ring_buffer_in_->write(inBufs[0][i]);
 
-  //std::cout << ring_buffer_in_->getReadSpace() << std::endl;
   go_condition_->notify_one();
 
   return 0;

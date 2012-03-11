@@ -31,16 +31,17 @@ MyFeatureExtractor::MyFeatureExtractor() :
 
 void MyFeatureExtractor::init()
 {
-  //sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
+  sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
-  audio_frames = new JackCpp::RingBuffer<float>(65536);
-  testProcessFromFile();
-
-  //pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
-  //features_ = new Features();
-  //  audio_frames_to_process_ = new float[window_size];
-  audio_frames_to_process_ = new float[65536];
+  sample_rate_ /= 10.0;
+  pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
+  features_ = new Features();
+  audio_frames_to_process_ = new float[window_size_];
+  
+  // audio_frames_to_process_ = new float[65536];
+  // audio_frames = new JackCpp::RingBuffer<float>(65536);
+  // testProcessFromFile();
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
@@ -51,7 +52,7 @@ MyFeatureExtractor::~MyFeatureExtractor()
   delete features_;
 }
 
-void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames_old)
+void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames)
 {
   // read audio frames from ringbuffer and process speech segments.
   while(audio_frames->getReadSpace() >= window_size_){    
@@ -81,7 +82,6 @@ void MyFeatureExtractor::processSilence(int num_frames)
   features_->pushFeatures();
 
   length_silence_ += 1000.0 * (float)num_frames / (sample_rate_); // in ms
-  //  std::cout << length_silence_ << std::endl;
 
   if (length_silence_ > max_silence_ && new_utterance_ == true){
     std::string utterance = features_->getLastUtteranceAsString(); 
@@ -132,16 +132,7 @@ void MyFeatureExtractor::testProcessFromFile()
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   
   // push this all to ringbuffer
-  audio_frames->write(audio_frames_f, sample_length);
-  
-
-  // int rt = 1;
-  // int index = 0;
-  // do{
-  //   rt = pitch_->getPitch(&audio_frames[index], window_size);
-  //   index += window_stride;
-  // }
-  // while (rt != 0);
+  audio_frames_internal->write(audio_frames_f, sample_length);
 }
 
 // Read input file with libsndfile
