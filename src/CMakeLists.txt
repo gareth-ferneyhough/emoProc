@@ -6,7 +6,7 @@ file(GLOB_RECURSE emote_SRC
   "*.c*"
 )
 
-set (EXTRA_LIBS ${EXTRA_LIBS} boost_thread jack jackcpp aubio getf0 m sndfile)
+set (EXTRA_LIBS ${EXTRA_LIBS} boost_thread jack getf0 m sndfile)
 
 add_executable (emote ${emote_SRC})
 

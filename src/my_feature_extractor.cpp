@@ -34,14 +34,9 @@ void MyFeatureExtractor::init()
   sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
-  sample_rate_ = 16000;
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   features_ = new Features();
   audio_frames_to_process_ = new float[window_size_];
-  
-  // audio_frames_to_process_ = new float[65536];
-  // audio_frames = new JackCpp::RingBuffer<float>(65536);
-  // testProcessFromFile();
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
@@ -119,54 +114,54 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
   delete[] double_frames;
 }
 
-void MyFeatureExtractor::testProcessFromFile()
-{
-  float *audio_frames_f;
-  int sample_length;
-  const char *filename = "in.wav";
+// void MyFeatureExtractor::testProcessFromFile()
+// {
+//   float *audio_frames_f;
+//   int sample_length;
+//   const char *filename = "in.wav";
 
-  readFile(filename, &audio_frames_f, &sample_length, &sample_rate_);
-  int frames_remaining = sample_length;
+//   readFile(filename, &audio_frames_f, &sample_length, &sample_rate_);
+//   int frames_remaining = sample_length;
 
-  // init pitch
-  pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
+//   // init pitch
+//   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   
-  // push this all to ringbuffer
-  audio_frames_i->write(audio_frames_f, sample_length);
-}
+//   // push this all to ringbuffer
+//   audio_frames_i->write(audio_frames_f, sample_length);
+// }
 
-// Read input file with libsndfile
-void MyFeatureExtractor::readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate)
-{
-  SNDFILE *infile;
-  SF_INFO sfinfo;
+// // Read input file with libsndfile
+// void MyFeatureExtractor::readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate)
+// {
+//   SNDFILE *infile;
+//   SF_INFO sfinfo;
 
-  // check file
-  if(!(infile = sf_open(filename, SFM_READ, &sfinfo)))
-    {
-      printf("Unable to open %s\n", filename);
-      puts(sf_strerror(NULL));
-      exit(-1);
-    }
+//   // check file
+//   if(!(infile = sf_open(filename, SFM_READ, &sfinfo)))
+//     {
+//       printf("Unable to open %s\n", filename);
+//       puts(sf_strerror(NULL));
+//       exit(-1);
+//     }
 
-  if(sfinfo.channels > 1)
-    {
-      printf("Not able to process more than 1 channel.\n");
-      exit(-1);
-    }
+//   if(sfinfo.channels > 1)
+//     {
+//       printf("Not able to process more than 1 channel.\n");
+//       exit(-1);
+//     }
 
-  //read sound file
-  *sample_length = sfinfo.frames;
-  *sample_rate = sfinfo.samplerate;
+//   //read sound file
+//   *sample_length = sfinfo.frames;
+//   *sample_rate = sfinfo.samplerate;
 
-  (*audio_frames) = (float*)malloc(*sample_length * sizeof(float));
-  int readcount = sf_readf_float(infile, (*audio_frames), *sample_length);
+//   (*audio_frames) = (float*)malloc(*sample_length * sizeof(float));
+//   int readcount = sf_readf_float(infile, (*audio_frames), *sample_length);
 
-  if (readcount != *sample_length){
-    printf("Error reading sound file\n");
-    exit(-1);
-  }
+//   if (readcount != *sample_length){
+//     printf("Error reading sound file\n");
+//     exit(-1);
+//   }
 
-  else printf("Read %d frames at %d Hz\n", *sample_length, *sample_rate);
-}
+//   else printf("Read %d frames at %d Hz\n", *sample_length, *sample_rate);
+// }
 

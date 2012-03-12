@@ -1,9 +1,10 @@
 #include "audio_capture.h"
 
-#include <typeinfo>
-#include <assert.h>
-#include <string>
 #include <iostream>
+#include <typeinfo>
+#include <string>
+#include <assert.h>
+#include <sndfile.h>
 
 #include "jackcpp/jackringbuffer.hpp"
 #include "logger.h"
@@ -13,10 +14,8 @@ AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* in,
                            JackCpp::RingBuffer<float>* out,
                            boost::condition* cond) :
 
-  JackCpp::AudioIO("jackcpp-test", 1, 1), // mono only
   logger_(Logger::getInstance()),
   my_name_(typeid(*this).name()),
-  sample_rate_(-1),
   ring_buffer_in_(in),
   ring_buffer_out_(out),
   go_condition_(cond)
@@ -24,30 +23,19 @@ AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* in,
   assert (ring_buffer_in_ != NULL);
   assert (ring_buffer_out_ != NULL);
   assert (go_condition_ != NULL);
-
-  float zeros[512];
-  for(int i = 0; i < 512; i++){
-    zeros[i] = 0;
-  }
-
-  ring_buffer_in_->write(zeros, 512);
 }
 
 AudioCapture::~AudioCapture()
 {
-  disconnectInPort(0);
-  close();
-
   logger_->writeLog(my_name_, "in Destructor");
 }
 
-int AudioCapture::audioCallback(jack_nframes_t nframes,
-                                audioBufVector inBufs,
-                                audioBufVector outBufs)
+int AudioCapture::audioCallback(float* inBufs, int nframes)
 {
-  //  ring_buffer_in_->write(&inBufs[0][0], nframes);
-  for (int i = 0; i < nframes; i += 3)
-    ring_buffer_in_->write(inBufs[0][i]);
+  ring_buffer_in_->write(&inBufs[0], nframes);
+  
+  // for (int i = 0; i < nframes; i += 3)
+  //   ring_buffer_in_->write(inBufs[0][i]);
 
   go_condition_->notify_one();
 
@@ -56,16 +44,49 @@ int AudioCapture::audioCallback(jack_nframes_t nframes,
 
 int AudioCapture::startAudioClient()
 {
-  start();
-  connectToPhysical(0, 0);  // Connect output to port 0
+  float *audio_frames_f;
+  int sample_length;
+  const char *filename = "in.wav";
+  int sample_rate;
 
-  SettingsMgr::getInstance()->setSampleRate(getSampleRate());
-
-  if (isRealTime())
-    logger_->writeLog(my_name_, "Jack is real time");
-  else
-    logger_->writeLog(my_name_, "Jack is not real time");
+  readFile(filename, &audio_frames_f, &sample_length, &sample_rate);
+  SettingsMgr::getInstance()->setSampleRate(sample_rate);
+  audioCallback(audio_frames_f, sample_length); 
 
   return 0;
 }
 
+// Read input file with libsndfile
+void AudioCapture::readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate)
+{
+  SNDFILE *infile;
+  SF_INFO sfinfo;
+
+  // check file
+  if(!(infile = sf_open(filename, SFM_READ, &sfinfo)))
+    {
+      printf("Unable to open %s\n", filename);
+      puts(sf_strerror(NULL));
+      exit(-1);
+    }
+
+  if(sfinfo.channels > 1)
+    {
+      printf("Not able to process more than 1 channel.\n");
+      exit(-1);
+    }
+
+  //read sound file
+  *sample_length = sfinfo.frames;
+  *sample_rate = sfinfo.samplerate;
+
+  (*audio_frames) = (float*)malloc(*sample_length * sizeof(float));
+  int readcount = sf_readf_float(infile, (*audio_frames), *sample_length);
+
+  if (readcount != *sample_length){
+    printf("Error reading sound file\n");
+    exit(-1);
+  }
+
+  else printf("Read %d frames at %d Hz\n", *sample_length, *sample_rate);
+}

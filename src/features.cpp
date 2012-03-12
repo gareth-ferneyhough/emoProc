@@ -6,7 +6,6 @@
 #include "interpolation.h"
 
 #include "features.h"
-#include "speech_energy.h"
 
 Features::Features() :
   current_features_(NULL),

@@ -27,10 +27,10 @@ AudioCaptureThread::~AudioCaptureThread()
   delete audio_capture_;
 }
 
-int AudioCaptureThread::getSampleRate()
-{
-  return audio_capture_->getSampleRate();
-}
+// int AudioCaptureThread::getSampleRate()
+// {
+//   return audio_capture_->getSampleRate();
+// }
 
 void AudioCaptureThread::runFunction()
 {

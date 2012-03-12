@@ -13,7 +13,7 @@ class AudioCaptureThread : public ThreadWrapper
                               boost::condition*);
   ~AudioCaptureThread();
 
-  int getSampleRate();
+  //int getSampleRate();
 
   bool isStarted() {
     return audio_capture_started_;

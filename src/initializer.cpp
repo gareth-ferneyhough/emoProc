@@ -44,8 +44,6 @@ int Initializer::init()
 {
   // set some settings
   SettingsMgr::getInstance()->setSpeechEnergyThreshold(0.0009);
-  SettingsMgr::getInstance()->setPitchWindowOverlap(10);         // ms. NOT USING CURRENTLY
-  SettingsMgr::getInstance()->setPitchWindowSize(20);            // ms  ""
   SettingsMgr::getInstance()->setMaxSilenceBtwnUtterances(3500); // ms. But not really?? why? sample_rate?
 
   SettingsMgr::getInstance()->setModelFilename("../data/model.txt");
