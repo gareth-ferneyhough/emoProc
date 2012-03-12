@@ -15,11 +15,12 @@ class AudioCapture{
                         boost::condition*);
   ~AudioCapture();
 
-  virtual int audioCallback(float* inBuf, int nframes);
   int startAudioClient();
 
  private:
   DISALLOW_COPY_AND_ASSIGN(AudioCapture);
+
+  void init();
 
   Logger* const logger_;
   const std::string my_name_;

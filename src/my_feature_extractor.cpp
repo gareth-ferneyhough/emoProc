@@ -10,6 +10,9 @@
 #include "features.h"
 #include "classifier.h"
 
+using std::cout;
+using std::endl;
+
 MyFeatureExtractor::MyFeatureExtractor() :
   FeatureExtractor(),
   window_size_(-1),
@@ -37,6 +40,8 @@ void MyFeatureExtractor::init()
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   features_ = new Features();
   audio_frames_to_process_ = new float[window_size_];
+
+  cout << "MyFeatureExtractor: done with init()\n";
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
@@ -51,7 +56,6 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
 {
   // read audio frames from ringbuffer and process speech segments.
   while(audio_frames->getReadSpace() >= window_size_){    
-    
     audio_frames->peek(audio_frames_to_process_, window_size_);
     audio_frames->erase(window_overlap_);
 

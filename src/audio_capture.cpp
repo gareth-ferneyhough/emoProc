@@ -23,26 +23,11 @@ AudioCapture::AudioCapture(JackCpp::RingBuffer<float>* in,
   assert (ring_buffer_in_ != NULL);
   assert (ring_buffer_out_ != NULL);
   assert (go_condition_ != NULL);
+
+  init();
 }
 
-AudioCapture::~AudioCapture()
-{
-  logger_->writeLog(my_name_, "in Destructor");
-}
-
-int AudioCapture::audioCallback(float* inBufs, int nframes)
-{
-  ring_buffer_in_->write(&inBufs[0], nframes);
-  
-  // for (int i = 0; i < nframes; i += 3)
-  //   ring_buffer_in_->write(inBufs[0][i]);
-
-  go_condition_->notify_one();
-
-  return 0;
-}
-
-int AudioCapture::startAudioClient()
+void AudioCapture::init()
 {
   float *audio_frames_f;
   int sample_length;
@@ -51,7 +36,19 @@ int AudioCapture::startAudioClient()
 
   readFile(filename, &audio_frames_f, &sample_length, &sample_rate);
   SettingsMgr::getInstance()->setSampleRate(sample_rate);
-  audioCallback(audio_frames_f, sample_length); 
+  
+  ring_buffer_in_->write(&audio_frames_f[0], sample_length);
+}
+
+AudioCapture::~AudioCapture()
+{
+  logger_->writeLog(my_name_, "in Destructor");
+}
+
+
+int AudioCapture::startAudioClient()
+{
+  go_condition_->notify_one();
 
   return 0;
 }
