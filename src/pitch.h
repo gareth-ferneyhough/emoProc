@@ -19,7 +19,6 @@ class Pitch
   int input_buffer_size;
   int stride;
   double* input_frames;
-  std::vector<double> input;
 };
 
 #endif // EMO_PITCH_H

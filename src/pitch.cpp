@@ -19,14 +19,6 @@ Pitch::Pitch(int new_sample_rate, int& new_input_buffer_size, int& new_stride) :
 
 Pitch::~Pitch()
 {
-  std::cout << "pitch destructor\n";
-  std::ofstream fout;
-  fout.open("raw_pitch_input.txt");
-  for (int i = 0; i < input.size(); i++){
-    fout << input[i] << " ";
-  }
-
-  fout.close();
   //dtor
 }
 
@@ -89,10 +81,7 @@ std::vector<float> Pitch::getPitch(double* new_input_frames, int num_frames)
     return pitches;   //return empty vector
 
   // else copy to contiguous memory
-  //std::copy( new_input_frames, new_input_frames + num_frames, input_frames);
-  for(int i = 0; i < num_frames; ++i)
-    input_frames[i] = new_input_frames[i];
-
+  std::copy( new_input_frames, new_input_frames + num_frames, input_frames);
   assert(input_buffer_size == num_frames);
 
   // get pitch
