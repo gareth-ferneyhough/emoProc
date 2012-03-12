@@ -1,0 +1,5 @@
+#! /bin/bash
+mkdir build
+cd build
+rm -r *
+cmake -D CMAKE_INSTALL_PREFIX=. ..
