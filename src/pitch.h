@@ -9,7 +9,7 @@ class Pitch
  public:
   Pitch( int sample_rate, int& input_buffer_size, int& stride);
   ~Pitch();
-  int getPitch(double* input_frames, int num_frames);
+  std::vector<float> getPitch(double* input_frames, int num_frames);
 
  private:
   int init(int&, int&);

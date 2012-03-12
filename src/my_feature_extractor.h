@@ -38,7 +38,6 @@ class MyFeatureExtractor : public FeatureExtractor
   void testProcessFromFile();
   void readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate);
   JackCpp::RingBuffer<float>* audio_frames_i;
-
 };
 
 #endif // MYFEATUREEXTRACTOR_H

@@ -61,7 +61,7 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
 
     //logger_->logRawAudio(audio_frames_to_process_, window_size_);
     
-    processSpeechSegment(audio_frames_to_process_, window_size_);
+     processSpeechSegment(audio_frames_to_process_, window_size_);
     // // speech detected
     // if(speech_energy >= speech_energy_threshold_){
     //   processSpeechSegment(audio_frames_to_process_, window_size);
@@ -103,8 +103,9 @@ void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frame
   }
 
   logger_->logRawAudioD(double_frames, num_frames);
-
-  pitch_->getPitch(double_frames, num_frames);
+  std::vector<float> pitches = pitch_->getPitch(double_frames, num_frames);
+  for (int i = 0; i < pitches.size(); i++)
+    logger_->logPitchData(pitches[i]);
 
   // std::cout << the_pitch << std::endl;
   // logger_->logPitchData(the_pitch);
