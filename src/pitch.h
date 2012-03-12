@@ -1,6 +1,7 @@
 #ifndef EMO_PITCH_H
 #define EMO_PITCH_H
 
+#include <vector>
 #include "getf0.h"
 
 class Pitch
@@ -18,6 +19,7 @@ class Pitch
   int input_buffer_size;
   int stride;
   double* input_frames;
+  std::vector<double> input;
 };
 
 #endif // EMO_PITCH_H

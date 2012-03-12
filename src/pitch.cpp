@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 
 #include <limits.h>
@@ -18,6 +19,14 @@ Pitch::Pitch(int new_sample_rate, int& new_input_buffer_size, int& new_stride) :
 
 Pitch::~Pitch()
 {
+  std::cout << "pitch destructor\n";
+  std::ofstream fout;
+  fout.open("raw_pitch_input.txt");
+  for (int i = 0; i < input.size(); i++){
+    fout << input[i] << " ";
+  }
+
+  fout.close();
   //dtor
 }
 
@@ -87,10 +96,10 @@ int Pitch::getPitch(double* new_input_frames, int num_frames)
   //test
   double sum = 0;
   for (int i = 0; i < input_buffer_size; ++i){
-    sum += input_frames[i];
+    input.push_back(input_frames[i]);
   }    
 
-  //std::cout << "sum: " << sum << std::endl;
+  //  std::cout << "sum: " << sum << std::endl;
 
   // get pitch
   float *pitch, *probability_voicing, *rms_speech, *acpkp;

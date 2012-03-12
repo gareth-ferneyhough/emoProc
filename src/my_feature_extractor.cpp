@@ -34,7 +34,7 @@ void MyFeatureExtractor::init()
   sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
-  sample_rate_ /= 10.0;
+  sample_rate_ = 16000;
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   features_ = new Features();
   audio_frames_to_process_ = new float[window_size_];
@@ -132,7 +132,7 @@ void MyFeatureExtractor::testProcessFromFile()
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   
   // push this all to ringbuffer
-  audio_frames_internal->write(audio_frames_f, sample_length);
+  audio_frames_i->write(audio_frames_f, sample_length);
 }
 
 // Read input file with libsndfile
@@ -167,6 +167,6 @@ void MyFeatureExtractor::readFile(const char *filename, float **audio_frames, in
     exit(-1);
   }
 
-  else printf("Read %d frames at %f Hz\n", *sample_length, *sample_rate);
+  else printf("Read %d frames at %d Hz\n", *sample_length, *sample_rate);
 }
 
