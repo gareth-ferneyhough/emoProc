@@ -16,7 +16,6 @@ class MyFeatureExtractor : public FeatureExtractor
   int window_size_;
   int window_overlap_;
   float speech_energy_threshold_;
-  float previous_pitch_;
 
   float max_silence_;
   float length_silence_;
@@ -33,12 +32,6 @@ class MyFeatureExtractor : public FeatureExtractor
   void processAudioSampleFunction(JackCpp::RingBuffer<float>* const audio_frames);
   void processSilence(int num_frames);
   void processSpeechSegment(float* audio_frames, int num_frames);
-
-  //test functions
-  void testProcessFromFile();
-  void readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate);
-  JackCpp::RingBuffer<float>* audio_frames_i;
-
 };
 
 #endif // MYFEATUREEXTRACTOR_H

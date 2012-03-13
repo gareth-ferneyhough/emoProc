@@ -18,7 +18,6 @@ MyFeatureExtractor::MyFeatureExtractor() :
   window_size_(-1),
   window_overlap_(-1),
   speech_energy_threshold_(-1),
-  previous_pitch_(0),
   max_silence_(-1),
   length_silence_(0),
   new_utterance_(false),
@@ -40,8 +39,6 @@ void MyFeatureExtractor::init()
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   features_ = new Features();
   audio_frames_to_process_ = new float[window_size_];
-
-  cout << "MyFeatureExtractor: done with init()\n";
 }
 
 MyFeatureExtractor::~MyFeatureExtractor()
@@ -61,7 +58,7 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
 
     //logger_->logRawAudio(audio_frames_to_process_, window_size_);
     
-    processSpeechSegment(audio_frames_to_process_, window_size_);
+     processSpeechSegment(audio_frames_to_process_, window_size_);
     // // speech detected
     // if(speech_energy >= speech_energy_threshold_){
     //   processSpeechSegment(audio_frames_to_process_, window_size);
@@ -94,78 +91,25 @@ void MyFeatureExtractor::processSilence(int num_frames)
 
 void MyFeatureExtractor::processSpeechSegment(float* audio_frames, int num_frames)
 {
-  logger_->logSpeechSegmentationData(true);
-
-  // this sucks //
+   // this sucks //
   double* double_frames = new double[num_frames];
-  for (int i = 0; i < num_frames; ++i){
+  for (int i = 0; i < num_frames; ++i)
     double_frames[i] = static_cast<double>(audio_frames[i]);
-  }
-
+  
+  logger_->logSpeechSegmentationData(true);
   logger_->logRawAudioD(double_frames, num_frames);
+  
+  std::vector<float> pitches = pitch_->getPitch(double_frames, num_frames);
+  for (int i = 0; i < pitches.size(); i++)
+    logger_->logPitchData(pitches[i]);
 
-  pitch_->getPitch(double_frames, num_frames);
 
-  // std::cout << the_pitch << std::endl;
-  // logger_->logPitchData(the_pitch);
   // features_->savePitch(the_pitch);
   // features_->saveRaw(audio_frames, num_frames);
-  
+
 
   length_silence_ = 0;
   new_utterance_ = true;
 
   delete[] double_frames;
 }
-
-// void MyFeatureExtractor::testProcessFromFile()
-// {
-//   float *audio_frames_f;
-//   int sample_length;
-//   const char *filename = "in.wav";
-
-//   readFile(filename, &audio_frames_f, &sample_length, &sample_rate_);
-//   int frames_remaining = sample_length;
-
-//   // init pitch
-//   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
-  
-//   // push this all to ringbuffer
-//   audio_frames_i->write(audio_frames_f, sample_length);
-// }
-
-// // Read input file with libsndfile
-// void MyFeatureExtractor::readFile(const char *filename, float **audio_frames, int *sample_length, int *sample_rate)
-// {
-//   SNDFILE *infile;
-//   SF_INFO sfinfo;
-
-//   // check file
-//   if(!(infile = sf_open(filename, SFM_READ, &sfinfo)))
-//     {
-//       printf("Unable to open %s\n", filename);
-//       puts(sf_strerror(NULL));
-//       exit(-1);
-//     }
-
-//   if(sfinfo.channels > 1)
-//     {
-//       printf("Not able to process more than 1 channel.\n");
-//       exit(-1);
-//     }
-
-//   //read sound file
-//   *sample_length = sfinfo.frames;
-//   *sample_rate = sfinfo.samplerate;
-
-//   (*audio_frames) = (float*)malloc(*sample_length * sizeof(float));
-//   int readcount = sf_readf_float(infile, (*audio_frames), *sample_length);
-
-//   if (readcount != *sample_length){
-//     printf("Error reading sound file\n");
-//     exit(-1);
-//   }
-
-//   else printf("Read %d frames at %d Hz\n", *sample_length, *sample_rate);
-// }
-

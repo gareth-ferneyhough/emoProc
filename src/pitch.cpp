@@ -19,14 +19,6 @@ Pitch::Pitch(int new_sample_rate, int& new_input_buffer_size, int& new_stride) :
 
 Pitch::~Pitch()
 {
-  std::cout << "pitch destructor\n";
-  std::ofstream fout;
-  fout.open("raw_pitch_input.txt");
-  for (int i = 0; i < input.size(); i++){
-    fout << input[i] << " ";
-  }
-
-  fout.close();
   //dtor
 }
 
@@ -79,27 +71,18 @@ int Pitch::init(int& new_input_buffer_size, int& new_stride)
   return 0;
 }
 
-int Pitch::getPitch(double* new_input_frames, int num_frames)
+std::vector<float> Pitch::getPitch(double* new_input_frames, int num_frames)
 {
+  std::vector<float> pitches;
+
   // ensure that we have enough frames in deque
   int frames_available = num_frames;
   if (frames_available < input_buffer_size)
-    return 0;
+    return pitches;   //return empty vector
 
   // else copy to contiguous memory
-  //std::copy( new_input_frames, new_input_frames + num_frames, input_frames);
-  for(int i = 0; i < num_frames; ++i)
-    input_frames[i] = new_input_frames[i];
-
+  std::copy( new_input_frames, new_input_frames + num_frames, input_frames);
   assert(input_buffer_size == num_frames);
-
-  //test
-  double sum = 0;
-  for (int i = 0; i < input_buffer_size; ++i){
-    input.push_back(input_frames[i]);
-  }    
-
-  //  std::cout << "sum: " << sum << std::endl;
 
   // get pitch
   float *pitch, *probability_voicing, *rms_speech, *acpkp;
@@ -119,7 +102,7 @@ int Pitch::getPitch(double* new_input_frames, int num_frames)
     printf(",%f",   probability_voicing[i]);
     printf(",%f",   rms_speech[i]);
     printf(",%f\n", acpkp[i]);
-  }
 
-  return 1;
+    pitches.push_back(pitch[i]);
+  }
 }

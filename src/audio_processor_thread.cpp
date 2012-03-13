@@ -37,10 +37,10 @@ void AudioProcessorThread::runFunction()
     audio_processor_started_ = true;
   }
 
-  {
-    boost::mutex::scoped_lock lock(mutex_);
-    go_condition_->wait(lock);
-  }
+  // {
+  //   boost::mutex::scoped_lock lock(mutex_);
+  //   go_condition_->wait(lock);
+  // }
 
   audio_processor_->processAudio();
   //sleep(1);

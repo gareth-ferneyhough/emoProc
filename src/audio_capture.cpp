@@ -31,7 +31,7 @@ void AudioCapture::init()
 {
   float *audio_frames_f;
   int sample_length;
-  const char *filename = "in.wav";
+  const char *filename = "../data/in.wav";
   int sample_rate;
 
   readFile(filename, &audio_frames_f, &sample_length, &sample_rate);
