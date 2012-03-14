@@ -58,7 +58,7 @@ int Initializer::init()
 
   audio_processor_->startThread();
   // naughty!
-  sleep(1);
+  sleep(6);
   audio_capture_->startThread();
 
 

@@ -43,5 +43,4 @@ void AudioProcessorThread::runFunction()
   // }
 
   audio_processor_->processAudio();
-  //sleep(1);
 }
