@@ -36,6 +36,7 @@ class AudioProcessor
 
   MyFeatureExtractor* feature_extractor;
 
+  bool initialized;
   Logger* const logger_;
   const std::string my_name_;
 };

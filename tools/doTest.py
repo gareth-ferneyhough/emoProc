@@ -8,7 +8,7 @@ def runEmotionTrial(subject, emotion, outfile):
     min_p = []
     max_p = []
 
-    outfile.write("Emotion: " + emotion + '\n')
+    outfile.write("\n-----Emotion: " + emotion + '-----\n')
     
     fullpath = "/home/gareth/Music/berlin/segregated/" + subject + '/' + emotion 
     samples = os.listdir(fullpath)
@@ -39,8 +39,8 @@ def main():
 
     for subject in test_subjects:
         outfile.write("\n-------- Subject: " + subject + '--------\n')
-        runEmotionTrial(subject, "anger", outfile)
-        runEmotionTrial(subject, "anxiety_fear", outfile)
+        #runEmotionTrial(subject, "anger", outfile)
+        #runEmotionTrial(subject, "anxiety_fear", outfile)
         runEmotionTrial(subject, "happiness", outfile)
         runEmotionTrial(subject, "sadness", outfile)
 
@@ -61,19 +61,22 @@ def runTrial(filename, outfile):
                 pitches.append(float(line[0]))
 
     # Save pitch stats
-    avg_p = float(sum(pitches)) / len(pitches)
-    max_p = max(pitches)
-    min_p = min(pitches)
+    if len(pitches) != 0:
+        avg_p = float(sum(pitches)) / len(pitches)
+        max_p = max(pitches)
+        min_p = min(pitches)
 
-    print "\naverage_pitch: " + str(avg_p)                  
-    print "max_pitch: " + str(max(pitches))
-    print "min_pitch: " + str(min(pitches))
+        print "\naverage_pitch: " + str(avg_p)                  
+        print "max_pitch: " + str(max(pitches))
+        print "min_pitch: " + str(min(pitches))
 
-    outfile.write("\naverage_pitch: " + str(avg_p) + '\n')                  
-    outfile.write("max_pitch: " + str(max(pitches)) + '\n')
-    outfile.write("min_pitch: " + str(min(pitches)) + '\n')
+        outfile.write("\naverage_pitch: " + str(avg_p) + '\n')                  
+        outfile.write("max_pitch: " + str(max(pitches)) + '\n')
+        outfile.write("min_pitch: " + str(min(pitches)) + '\n')
 
-    #return avg_p, min_p, max_p
+    else:
+        outfile.write("Error with last sample\n")
+        print "Error with last sample"
 
 if __name__ == "__main__":
     main()
