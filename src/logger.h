@@ -18,6 +18,9 @@ class Logger
   int logSpeechSegmentationData(bool speech_detected);
   int saveAllDataToFile();
 
+  bool isProcessingDone();
+  void setProcessingDone();
+
  private:
   DISALLOW_COPY_AND_ASSIGN(Logger);
   Logger();  // ctor private for Singleton implementation
@@ -27,6 +30,8 @@ class Logger
   std::vector<float> raw_audio_data_;
   std::vector<float> pitch_data_;
   std::vector<int> speech_segmentation_data_;
+
+  bool processing_done;
 };
 
 #endif // LOGGER_H

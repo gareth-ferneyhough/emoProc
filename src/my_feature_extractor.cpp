@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 
+#include "logger.h"
 #include "pitch.h"
 #include "settings_mgr.h"
 #include "features.h"
@@ -24,6 +25,7 @@ MyFeatureExtractor::MyFeatureExtractor() :
   sample_rate_(-1),
   audio_frames_to_process_(NULL),
   audio_buffer_in_(NULL),
+  logger_(NULL),
   pitch_(NULL),
   features_(NULL)
 {
@@ -36,6 +38,8 @@ void MyFeatureExtractor::init()
   sample_rate_ = SettingsMgr::getInstance()->getSampleRate();
   max_silence_ = SettingsMgr::getInstance()->getMaxSilenceBtwnUtterances();
 
+  logger_ = Logger::getInstance();
+
   pitch_ = new Pitch(sample_rate_, window_size_, window_overlap_);
   features_ = new Features();
   audio_frames_to_process_ = new float[window_size_];
@@ -43,7 +47,6 @@ void MyFeatureExtractor::init()
 
 MyFeatureExtractor::~MyFeatureExtractor()
 {
-  //dtor
   delete[] audio_frames_to_process_;
   delete pitch_;
   delete features_;
@@ -69,6 +72,8 @@ void MyFeatureExtractor::processAudioSampleFunction(JackCpp::RingBuffer<float>* 
     //   processSilence(window_size);
     // }
   }
+
+  logger_->setProcessingDone();
 }
 
 void MyFeatureExtractor::processSilence(int num_frames)

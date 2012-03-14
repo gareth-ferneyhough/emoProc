@@ -15,13 +15,10 @@ int main()
 
   logger->writeLog("main", "in main");
 
-  // Exit program on 'q'
-  char c;
-  do{
-    std::cin >> c;
+  // Wait till done
+  while (logger->isProcessingDone() == false){
+    sleep (1);
   }
-
-  while(c != 'q');
 
   return 0;
 }
