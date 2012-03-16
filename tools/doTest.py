@@ -10,13 +10,13 @@ def runEmotionTrial(subject, emotion, outfile):
 
     outfile.write("\n-----Emotion: " + emotion + '-----\n')
     
-    fullpath = "/home/gareth/Music/berlin/segregated/" + subject + '/' + emotion 
+    fullpath = "/home/gareth/BrainLab/berlin-speech-database/segregated/" + subject + '/' + emotion 
     samples = os.listdir(fullpath)
     
     for sample in samples:
         sample_path = fullpath + '/' + sample
 
-        shutil.copy(sample_path, '/home/gareth/MyDevelopment/emoProc/data/in.wav') 
+        shutil.copy(sample_path, '/home/gareth/BrainLab/emotional-speech/data/in.wav') 
         print "running trial: " + sample_path 
 
         # run it
@@ -35,7 +35,7 @@ def runEmotionTrial(subject, emotion, outfile):
 def main():
     outfile = open("out.txt", 'w')
     
-    test_subjects = os.listdir("/home/gareth/Music/berlin/segregated")
+    test_subjects = os.listdir("/home/gareth/BrainLab/berlin-speech-database/segregated")
 
     for subject in test_subjects:
         outfile.write("\n-------- Subject: " + subject + '--------\n')
