@@ -4,7 +4,8 @@
 #include <iostream>
 #include <iterator>
 
-Logger::Logger()
+Logger::Logger() :
+  processing_done(false)
 {
   //ctor
   fout.open("log.log");
@@ -112,6 +113,16 @@ int Logger::saveAllDataToFile()
   outfile1.clear();
 
   return 0;
+}
+
+bool Logger::isProcessingDone()
+{
+  return processing_done;
+}
+
+void Logger::setProcessingDone()
+{
+  processing_done = true;
 }
 
   

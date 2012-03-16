@@ -56,10 +56,14 @@ int Initializer::init()
   audio_capture_ = new AudioCaptureThread(audio_buffer_in_, audio_buffer_out_, &c1);
   audio_processor_ = new AudioProcessorThread(audio_buffer_in_, audio_buffer_out_,  &c1);
 
-  audio_processor_->startThread();
-  // naughty!
-  sleep(1);
   audio_capture_->startThread();
+  // naughty!
+  sleep(4);
+
+  // while(!audio_capture_->isStarted){
+  //   sleep(1);
+  // }
+  audio_processor_->startThread();
 
 
   // return to main

@@ -3,6 +3,7 @@
 
 #include "feature_extractor.h"
 
+class Logger;
 class Pitch;
 class Features;
 
@@ -25,6 +26,7 @@ class MyFeatureExtractor : public FeatureExtractor
   float* audio_frames_to_process_;
   JackCpp::RingBuffer<float>* audio_buffer_in_;
 
+  Logger* logger_;
   Pitch* pitch_;
   Features* features_;
   

@@ -1,0 +1,518 @@
+
+-------- Subject: 12_Male_30--------
+
+-----Emotion: happiness-----
+
+average_pitch: 73.6980737264
+max_pitch: 108.108612
+min_pitch: 54.422604
+
+average_pitch: 77.8934851304
+max_pitch: 106.667206
+min_pitch: 61.068703
+
+-----Emotion: sadness-----
+
+average_pitch: 67.5619118451
+max_pitch: 100.000076
+min_pitch: 53.691277
+Error with last sample
+Error with last sample
+
+-------- Subject: 15_Male_25--------
+
+-----Emotion: happiness-----
+
+average_pitch: 128.027037933
+max_pitch: 400.0
+min_pitch: 54.421532
+
+average_pitch: 104.931905677
+max_pitch: 186.044434
+min_pitch: 54.421757
+
+average_pitch: 131.468070216
+max_pitch: 296.296387
+min_pitch: 72.727623
+
+average_pitch: 102.671451481
+max_pitch: 150.94371
+min_pitch: 54.060284
+
+average_pitch: 130.764535362
+max_pitch: 156.864502
+min_pitch: 72.072372
+
+average_pitch: 112.878947853
+max_pitch: 163.265579
+min_pitch: 56.321053
+
+-----Emotion: sadness-----
+Error with last sample
+
+average_pitch: 57.658401675
+max_pitch: 62.224705
+min_pitch: 54.421753
+
+average_pitch: 68.1935045213
+max_pitch: 173.91391
+min_pitch: 53.333378
+
+average_pitch: 72.9843230118
+max_pitch: 250.483215
+min_pitch: 54.054802
+
+-------- Subject: 16_Female_21--------
+
+-----Emotion: happiness-----
+
+average_pitch: 151.384593533
+max_pitch: 205.128342
+min_pitch: 87.911598
+
+average_pitch: 147.930504477
+max_pitch: 205.128525
+min_pitch: 98.766129
+
+average_pitch: 179.894477112
+max_pitch: 250.000519
+min_pitch: 119.402969
+
+average_pitch: 186.902766633
+max_pitch: 235.294037
+min_pitch: 150.943497
+
+average_pitch: 203.708933887
+max_pitch: 275.865631
+min_pitch: 103.896126
+
+average_pitch: 183.241254402
+max_pitch: 235.29744
+min_pitch: 119.399452
+
+average_pitch: 158.865692852
+max_pitch: 242.433792
+min_pitch: 80.808716
+
+average_pitch: 198.677103758
+max_pitch: 250.000763
+min_pitch: 153.8461
+
+average_pitch: 170.048417019
+max_pitch: 258.066406
+min_pitch: 109.587311
+
+average_pitch: 170.649989031
+max_pitch: 235.299026
+min_pitch: 114.285713
+
+average_pitch: 197.098173891
+max_pitch: 266.666626
+min_pitch: 135.593323
+
+-----Emotion: sadness-----
+
+average_pitch: 91.6442598889
+max_pitch: 199.999924
+min_pitch: 67.226341
+Error with last sample
+
+average_pitch: 81.5258572304
+max_pitch: 94.117477
+min_pitch: 65.040642
+Error with last sample
+
+average_pitch: 99.8057080308
+max_pitch: 117.647072
+min_pitch: 79.182007
+Error with last sample
+
+average_pitch: 93.6914760388
+max_pitch: 106.666656
+min_pitch: 83.332466
+
+average_pitch: 100.521354145
+max_pitch: 129.032394
+min_pitch: 87.911827
+
+average_pitch: 97.6245963218
+max_pitch: 123.076805
+min_pitch: 80.807243
+
+-------- Subject: 08_Female_38--------
+
+-----Emotion: happiness-----
+
+average_pitch: 161.182528275
+max_pitch: 235.293213
+min_pitch: 86.040977
+
+average_pitch: 112.237525077
+max_pitch: 148.148178
+min_pitch: 90.904572
+
+average_pitch: 160.048674386
+max_pitch: 266.667389
+min_pitch: 73.394608
+
+average_pitch: 119.464203111
+max_pitch: 166.66748
+min_pitch: 72.071762
+
+average_pitch: 140.466333745
+max_pitch: 205.128387
+min_pitch: 77.668365
+
+average_pitch: 145.555323883
+max_pitch: 199.999832
+min_pitch: 79.999962
+
+average_pitch: 161.242779117
+max_pitch: 242.426849
+min_pitch: 103.894539
+
+average_pitch: 115.870185581
+max_pitch: 142.857178
+min_pitch: 66.666924
+
+average_pitch: 148.576693304
+max_pitch: 320.003326
+min_pitch: 80.806313
+
+average_pitch: 106.702993007
+max_pitch: 145.455338
+min_pitch: 81.63237
+
+average_pitch: 122.243056581
+max_pitch: 210.529556
+min_pitch: 63.999996
+
+-----Emotion: sadness-----
+Error with last sample
+Error with last sample
+Error with last sample
+
+average_pitch: 80.5784172807
+max_pitch: 119.402985
+min_pitch: 56.737556
+
+average_pitch: 80.9178035821
+max_pitch: 125.000214
+min_pitch: 61.565624
+
+average_pitch: 77.9835066146
+max_pitch: 98.757042
+min_pitch: 56.738422
+
+average_pitch: 81.3222004478
+max_pitch: 142.854813
+min_pitch: 54.795815
+Error with last sample
+Error with last sample
+
+-------- Subject: 09_Female_21--------
+
+-----Emotion: happiness-----
+
+average_pitch: 169.806352868
+max_pitch: 216.213699
+min_pitch: 124.999985
+
+average_pitch: 189.14324624
+max_pitch: 363.665924
+min_pitch: 97.561501
+
+average_pitch: 151.327388974
+max_pitch: 210.526596
+min_pitch: 105.284126
+
+average_pitch: 190.330564113
+max_pitch: 242.426544
+min_pitch: 150.94281
+
+-----Emotion: sadness-----
+
+average_pitch: 79.7157270132
+max_pitch: 115.925644
+min_pitch: 63.511353
+
+average_pitch: 89.6022709802
+max_pitch: 109.589027
+min_pitch: 67.796547
+
+average_pitch: 79.0465624164
+max_pitch: 347.827209
+min_pitch: 54.421768
+
+average_pitch: 75.8882335723
+max_pitch: 101.265793
+min_pitch: 59.259224
+
+-------- Subject: 14_Female_35--------
+
+-----Emotion: happiness-----
+
+average_pitch: 153.730793324
+max_pitch: 205.128189
+min_pitch: 100.014221
+
+average_pitch: 135.813333621
+max_pitch: 200.002457
+min_pitch: 78.431358
+
+average_pitch: 140.791002667
+max_pitch: 186.046692
+min_pitch: 74.764328
+
+average_pitch: 121.91477622
+max_pitch: 250.0
+min_pitch: 67.226715
+
+average_pitch: 166.805511426
+max_pitch: 235.29425
+min_pitch: 101.26519
+
+average_pitch: 128.525246047
+max_pitch: 186.048447
+min_pitch: 80.807426
+
+average_pitch: 132.399045925
+max_pitch: 181.829803
+min_pitch: 84.213387
+
+average_pitch: 152.418432875
+max_pitch: 250.002258
+min_pitch: 84.2108
+
+-----Emotion: sadness-----
+
+average_pitch: 71.3712672027
+max_pitch: 97.560234
+min_pitch: 54.421959
+
+average_pitch: 72.9358179563
+max_pitch: 108.100632
+min_pitch: 60.149147
+
+average_pitch: 82.4323549789
+max_pitch: 266.666351
+min_pitch: 55.949154
+Error with last sample
+
+average_pitch: 87.363264537
+max_pitch: 205.172562
+min_pitch: 57.55304
+Error with last sample
+
+average_pitch: 83.5206436099
+max_pitch: 135.593246
+min_pitch: 63.49958
+
+average_pitch: 80.5117809063
+max_pitch: 103.89695
+min_pitch: 54.418514
+
+average_pitch: 81.6614297963
+max_pitch: 94.120354
+min_pitch: 61.068722
+Error with last sample
+
+-------- Subject: 11_Male_26--------
+
+-----Emotion: happiness-----
+
+average_pitch: 93.1520144021
+max_pitch: 140.350876
+min_pitch: 57.142853
+
+average_pitch: 78.2426675704
+max_pitch: 109.588936
+min_pitch: 54.054047
+
+average_pitch: 92.2640940602
+max_pitch: 186.046112
+min_pitch: 55.555515
+
+average_pitch: 90.4944121721
+max_pitch: 275.863373
+min_pitch: 53.333248
+
+average_pitch: 82.8902974211
+max_pitch: 142.857147
+min_pitch: 60.150356
+
+average_pitch: 95.6818070899
+max_pitch: 145.454559
+min_pitch: 58.823563
+
+average_pitch: 117.49126558
+max_pitch: 153.846527
+min_pitch: 67.23304
+
+average_pitch: 109.551579862
+max_pitch: 163.262924
+min_pitch: 60.604897
+
+-----Emotion: sadness-----
+
+average_pitch: 64.5193961034
+max_pitch: 109.58754
+min_pitch: 53.690586
+
+average_pitch: 59.9450094286
+max_pitch: 98.766647
+min_pitch: 53.662155
+Error with last sample
+
+average_pitch: 56.51018825
+max_pitch: 68.346367
+min_pitch: 54.053997
+Error with last sample
+Error with last sample
+
+average_pitch: 61.7786021707
+max_pitch: 106.667046
+min_pitch: 54.054031
+
+-------- Subject: 13_Female_3209--------
+
+-----Emotion: happiness-----
+
+average_pitch: 178.361071432
+max_pitch: 235.324081
+min_pitch: 135.592407
+
+average_pitch: 117.258158528
+max_pitch: 216.221527
+min_pitch: 55.555485
+
+average_pitch: 165.060690876
+max_pitch: 222.229385
+min_pitch: 112.67572
+
+average_pitch: 149.923840855
+max_pitch: 258.064514
+min_pitch: 87.911827
+
+average_pitch: 157.184263802
+max_pitch: 216.222153
+min_pitch: 105.263229
+
+average_pitch: 125.299920648
+max_pitch: 163.267181
+min_pitch: 84.210266
+
+average_pitch: 168.252704708
+max_pitch: 320.010773
+min_pitch: 84.210526
+
+average_pitch: 163.537732865
+max_pitch: 266.689972
+min_pitch: 77.66993
+
+average_pitch: 167.852468569
+max_pitch: 210.522278
+min_pitch: 115.942001
+
+average_pitch: 187.18492936
+max_pitch: 266.666931
+min_pitch: 112.676483
+
+-----Emotion: sadness-----
+
+average_pitch: 86.7977764488
+max_pitch: 133.373398
+min_pitch: 54.421734
+Error with last sample
+
+average_pitch: 114.477613387
+max_pitch: 333.332794
+min_pitch: 59.259132
+Error with last sample
+
+average_pitch: 84.5860684862
+max_pitch: 129.001114
+min_pitch: 54.430725
+
+-------- Subject: 10_Male_32--------
+
+-----Emotion: happiness-----
+
+average_pitch: 119.038225036
+max_pitch: 142.857986
+min_pitch: 88.888824
+
+average_pitch: 104.051600782
+max_pitch: 181.780945
+min_pitch: 54.422352
+
+average_pitch: 95.965265741
+max_pitch: 195.118896
+min_pitch: 54.05286
+
+average_pitch: 108.908082654
+max_pitch: 140.350967
+min_pitch: 76.190025
+
+-----Emotion: sadness-----
+
+average_pitch: 66.9542212333
+max_pitch: 135.595764
+min_pitch: 53.691307
+Error with last sample
+
+average_pitch: 282.3651916
+max_pitch: 307.720337
+min_pitch: 266.667633
+
+-------- Subject: 03_Male_31--------
+
+-----Emotion: happiness-----
+
+average_pitch: 114.63446458
+max_pitch: 400.000549
+min_pitch: 57.142975
+
+average_pitch: 99.7093631265
+max_pitch: 147.955185
+min_pitch: 59.25824
+
+average_pitch: 135.495528681
+max_pitch: 181.819305
+min_pitch: 91.953751
+
+average_pitch: 106.972327309
+max_pitch: 150.944016
+min_pitch: 67.226898
+
+average_pitch: 96.9675867849
+max_pitch: 131.147568
+min_pitch: 65.040779
+
+average_pitch: 139.992065632
+max_pitch: 181.82132
+min_pitch: 108.10511
+
+-----Emotion: sadness-----
+
+average_pitch: 56.90730455
+max_pitch: 59.259258
+min_pitch: 54.053864
+
+average_pitch: 64.3004339906
+max_pitch: 79.208168
+min_pitch: 54.054047
+
+average_pitch: 59.2876961905
+max_pitch: 73.353043
+min_pitch: 54.421383
+
+average_pitch: 56.2042898462
+max_pitch: 63.999893
+min_pitch: 53.691303
+Error with last sample
+
+average_pitch: 67.9963792597
+max_pitch: 121.200256
+min_pitch: 54.053875
+Error with last sample
