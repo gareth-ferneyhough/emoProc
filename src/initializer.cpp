@@ -49,8 +49,8 @@ int Initializer::init()
   SettingsMgr::getInstance()->setModelFilename("../data/model.txt");
 
   // audio ring buffers
-  audio_buffer_in_ = new JackCpp::RingBuffer<float>(65536);
-  audio_buffer_out_ = new JackCpp::RingBuffer<float>(65536);
+  audio_buffer_in_ = new JackCpp::RingBuffer<float>(262144);
+  audio_buffer_out_ = new JackCpp::RingBuffer<float>(262144);
 
   // spawn two threads
   audio_capture_ = new AudioCaptureThread(audio_buffer_in_, audio_buffer_out_, &c1);
